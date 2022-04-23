@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Collidable
+  - Fuel
+  - Coin 5
+  - Coin 25
+  - Coin 100
+  - Block 25
+  - Block 100
+  - Block 500
+  - BlocksParent
+  - LevelSize
+  - LevelRecord
+  - ChunkEasy
+  - ChunkMedium
+  - ChunkHard
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Car_Corpus
+  - Car_Wheels
+  - Player
+  - Ground
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Post_Processing
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
