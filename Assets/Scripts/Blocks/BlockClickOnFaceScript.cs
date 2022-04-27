@@ -32,7 +32,7 @@ public class BlockClickOnFaceScript : MonoBehaviour
             new Vector3(90f, 180f, 0f) };
         perentObject = GameObject.FindGameObjectWithTag("BlocksParent");
         gravelBlock= Resources.Load("Blocks/GravelBlock") as GameObject;
-        grassBlock = Resources.Load("Blocks/BaseBlock") as GameObject;
+        grassBlock = Resources.Load("Blocks/GrassBlock") as GameObject;
         dirtBlock = Resources.Load("Blocks/DirtBlock") as GameObject;
         snowBlock = Resources.Load("Blocks/SnowBlock") as GameObject;
         sandBlock = Resources.Load("Blocks/SandBlock") as GameObject;
@@ -53,7 +53,7 @@ public class BlockClickOnFaceScript : MonoBehaviour
                 usedBlock = grassBlock;
                 break;
             case "2":
-                usedBlock = gravelBlock;
+                usedBlock = dirtBlock;
                 break;
             case "3":
                 usedBlock = snowBlock;

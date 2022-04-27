@@ -6,13 +6,13 @@ using UnityEngine.U2D;
 public class ChunksPlacer : MonoBehaviour
 {
     [SerializeField] private Transform Player;
-    [SerializeField] private GameObject ChanksContainerPrefab;
+    //[SerializeField] private GameObject ChanksContainerPrefab;
     [SerializeField] private GameObject FirstChunk;
 
+    Object[] obj;
     GameObject[] chunks;
     Vector3[] chunksBeginPositions;
     Vector3[] chunksEndPositions;
-    int chunksCount;
     private List<GameObject> spawnChunks = new List<GameObject>();
 
     CarController carController;
@@ -22,16 +22,22 @@ public class ChunksPlacer : MonoBehaviour
         FirstChunk = Instantiate(FirstChunk);
         
         carController = Player.GetComponent<CarController>();
+        //chunks[0] = Resources.Load<GameObject>("Prefabs/RoadObjects/RoadChunks") as GameObject;
+        chunks = Resources.LoadAll<GameObject>("Prefabs/RoadObjects/RoadChunks");
+        //Debug.Log(chunks.Length);
+        //Debug.Log("Chunk = " + chunks[11].name + "\nType = " + chunks[11].GetType() + "\n\n GetBeginPosition = " + GetBeginPosition(chunks[11]));
+        /*
         chunksCount = ChanksContainerPrefab.transform.childCount;
         //Get all chunks in chunks array
         chunks = new GameObject[chunksCount];
         if (chunks.Length > 0)
             for (int i = 0; i < chunksCount; i++)
                 chunks[i] = ChanksContainerPrefab.transform.GetChild(i).gameObject;
+        */
         //Gat begin postion of chunk
-        chunksBeginPositions = new Vector3[chunksCount];
-        chunksEndPositions = new Vector3[chunksCount];
-        for (int i = 0; i < chunksCount; i++)
+        chunksBeginPositions = new Vector3[chunks.Length];
+        chunksEndPositions = new Vector3[chunks.Length];
+        for (int i = 0; i < chunks.Length; i++)
         {
             chunksBeginPositions[i] = GetBeginPosition(chunks[i]);
             chunksEndPositions[i] = GetEndPosition(chunks[i]);
@@ -59,7 +65,7 @@ public class ChunksPlacer : MonoBehaviour
         List<GameObject> neededChunksMedium = new List<GameObject>();
         List<GameObject> neededChunksHard = new List<GameObject>();
         //Find all needed Chunks
-        for (int i = 0; i < chunksCount; i++)
+        for (int i = 0; i < chunks.Length; i++)
         {
             if(chunksBeginPositions[i].y == lastChunkEndPosition.y)
             {
