@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float smoothSpeed = 0.125f;
-    [SerializeField] private Vector3 offset;
+    [SerializeField] private Transform Target;
+    [SerializeField] private float SmoothSpeed = 0.125f;
+    [SerializeField] private Vector3 Offset;
 
-    [SerializeField] private GameObject floorLimiter;
+    [SerializeField] private GameObject PlayerFollower;
 
     private void FixedUpdate()
     {
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        Vector3 desiredPosition = Target.position + Offset;
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed);
         transform.position = smoothPosition;
         //transform.LookAt(target);
-        floorLimiter.transform.position = new Vector3(smoothPosition.x, floorLimiter.transform.position.y);
+
+        PlayerFollower.transform.position = new Vector3(smoothPosition.x, PlayerFollower.transform.position.y);
     }
 }

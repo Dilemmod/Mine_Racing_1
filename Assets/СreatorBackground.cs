@@ -7,22 +7,23 @@ public class СreatorBackground : MonoBehaviour
     [SerializeField] private Transform Player;
     [SerializeField] private GameObject FirstBackgroundChunk;
     [SerializeField] private int OffsetBackgroundChunk;
+    [SerializeField] private int extraOffset;
     //private Transform lastPositionBackgroundChunk;
 
     private List<GameObject> spawnedBackgroundChunks = new List<GameObject>();
-    private int[] degrees = {0, 90, 180, 270};
+    private int[] degrees = { 0, 90, 180, 270 };
 
-   // CarController carController;
+    // CarController carController;
     void Start()
     {
+        //First GameObject
         spawnedBackgroundChunks.Add(FirstBackgroundChunk);
         FirstBackgroundChunk = Instantiate(FirstBackgroundChunk);
-
-        //lastPositionBackgroundChunk = FirstBackgroundChunk.transform;
+        FirstBackgroundChunk.transform.parent = this.transform;
     }
     void Update()
     {
-        if (Player.position.x > spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1].transform.position.x)
+        if (Player.position.x + extraOffset > spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1].transform.position.x)
         {
             SpawnChunk();
         }
@@ -30,15 +31,16 @@ public class СreatorBackground : MonoBehaviour
     private void SpawnChunk()
     {
         GameObject newBackgroundChunk = Instantiate(spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1]);
-        newBackgroundChunk.transform.position = spawnedBackgroundChunks[spawnedBackgroundChunks.Count-1].transform.position;
+        newBackgroundChunk.transform.position = spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1].transform.position;
         newBackgroundChunk.transform.position = new Vector3(
-            newBackgroundChunk.transform.position.x+ OffsetBackgroundChunk, 
+            newBackgroundChunk.transform.position.x + OffsetBackgroundChunk,
             newBackgroundChunk.transform.position.y,
             newBackgroundChunk.transform.position.z);
-        newBackgroundChunk.transform.Rotate(0, degrees[Random.Range(0, degrees.Length)],0);
+        newBackgroundChunk.transform.Rotate(0, degrees[Random.Range(0, degrees.Length)], 0);
+        newBackgroundChunk.transform.parent = this.transform;
         spawnedBackgroundChunks.Add(newBackgroundChunk);
 
-        if (spawnedBackgroundChunks.Count >= 3)
+        if (spawnedBackgroundChunks.Count >= 4)
         {
             if (FirstBackgroundChunk != null)
                 Destroy(FirstBackgroundChunk);

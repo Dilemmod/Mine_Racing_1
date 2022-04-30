@@ -4,16 +4,41 @@ using UnityEngine;
 
 public class RoadCreator : MonoBehaviour
 {
-    public GameObject gameObjectBetween;
+    private GameObject roadPlaneGameObject;
     private EdgeCollider2D edgCollider2D;
-    private GameObject roadObjectContainer;
+    private GameObject tempRoadPlaneGameObject;
     Vector3 pointA = new Vector3();
     Vector3 pointB = new Vector3();
-    private void CreatingShapeBetweenPoints(Vector3 pA, Vector3 pB,GameObject parentobject)
+    private void Awake()
     {
-        if (gameObjectBetween == null)
+        roadPlaneGameObject = Resources.Load<GameObject>("Prefabs/RoadObjects/RoadPlane");
+        tempRoadPlaneGameObject = new GameObject();
+        edgCollider2D = GetComponent<EdgeCollider2D>();
+    }
+    void Start()
+    {
+        //Parent object
+        Instantiate(tempRoadPlaneGameObject);
+        tempRoadPlaneGameObject.name = "RoadObjectContainer";
+        tempRoadPlaneGameObject.transform.parent = this.gameObject.transform;
+        //Create road
+        for (int i = 1; i < edgCollider2D.pointCount - 5; i++)
+        {
+            pointA = new Vector2(edgCollider2D.points[i].x + this.transform.position.x, edgCollider2D.points[i].y + this.transform.position.y);
+            pointB = new Vector2(edgCollider2D.points[i + 1].x + this.transform.position.x, edgCollider2D.points[i + 1].y + this.transform.position.y);
+            pointA.z = 1f;
+            pointB.z = 1f;
+            CreatingShapeBetweenPoints(pointA, pointB, tempRoadPlaneGameObject);
+        }
+    }
+    private void CreatingShapeBetweenPoints(Vector3 pA, Vector3 pB, GameObject parentobject)
+    {
+        if (roadPlaneGameObject == null)
+        {
+            Debug.LogError("RoadPlaneGameObject is absent");
             return;
-        GameObject cloneBetween = Instantiate(gameObjectBetween);
+        }
+        GameObject cloneBetween = Instantiate(roadPlaneGameObject);
         Vector3 between = pB - pA;
         float distance = between.magnitude;
         cloneBetween.transform.localPosition = pA + (between / 2.0f);
@@ -30,29 +55,5 @@ public class RoadCreator : MonoBehaviour
             cloneBetween.transform.Rotate(0, 0, -tempX);
         //Move to parent folder
         cloneBetween.transform.parent = parentobject.transform;
-    }
-    private void Awake()
-    {
-        roadObjectContainer = new GameObject();
-        edgCollider2D = GetComponent<EdgeCollider2D>();
-    }
-    void Start()
-    {
-        //Parent object
-        Instantiate(roadObjectContainer);
-        roadObjectContainer.name = "RoadObjectContainer";
-        roadObjectContainer.transform.parent = this.gameObject.transform;
-        //Create road
-        //for (int i = 0; i < edgCollider2D.pointCount-1; i++)
-        for (int i = 1; i < edgCollider2D.pointCount-5; i++)
-        {
-            pointA = new Vector2(edgCollider2D.points[i].x + this.transform.position.x, edgCollider2D.points[i].y + this.transform.position.y);
-            pointB = new Vector2(edgCollider2D.points[i+1].x + this.transform.position.x, edgCollider2D.points[i+1].y + this.transform.position.y);
-            //1.75 - 0.5 = 1.25 for corect position
-            //pointA.z = -0.5f;
-            pointA.z = 0.75f;
-            pointB.z = 0.75f;
-            CreatingShapeBetweenPoints(pointA, pointB, roadObjectContainer);
-        }
     }
 }
