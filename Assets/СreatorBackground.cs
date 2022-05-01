@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class СreatorBackground : MonoBehaviour
 {
-    [SerializeField] private Transform Player;
+    //[SerializeField] private Transform Player;
+    private CarController carController;
     [SerializeField] private GameObject FirstBackgroundChunk;
     [SerializeField] private int OffsetBackgroundChunk;
     [SerializeField] private int extraOffset;
@@ -13,9 +14,13 @@ public class СreatorBackground : MonoBehaviour
     private List<GameObject> spawnedBackgroundChunks = new List<GameObject>();
     private int[] degrees = { 0, 90, 180, 270 };
 
-    // CarController carController;
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
+        carController = CarController.Instance;
         //First GameObject
         spawnedBackgroundChunks.Add(FirstBackgroundChunk);
         FirstBackgroundChunk = Instantiate(FirstBackgroundChunk);
@@ -23,7 +28,7 @@ public class СreatorBackground : MonoBehaviour
     }
     void Update()
     {
-        if (Player.position.x + extraOffset > spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1].transform.position.x)
+        if (carController.GetPlayerPosition().x + extraOffset > spawnedBackgroundChunks[spawnedBackgroundChunks.Count - 1].transform.position.x)
         {
             SpawnChunk();
         }

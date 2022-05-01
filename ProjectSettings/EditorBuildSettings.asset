@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: dac5b96bc0fe9b54b8276689c5c5881d
   - enabled: 1
-    path: Assets/Scenes/Desert.unity
+    path: Assets/Scenes/OldDesert.unity
     guid: 3259d8075dca76b4eb4395df08ba4d87
   - enabled: 1
-    path: Assets/Scenes/Swamp.unity
+    path: Assets/Scenes/OldSwamp.unity
     guid: 3b1cc7dac521d2440b338124b31790d5
   - enabled: 1
     path: Assets/Scenes/TestScene.unity

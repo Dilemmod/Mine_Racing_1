@@ -20,9 +20,18 @@ public class InGameMenuController : BaseGameMenuController
     [SerializeField] public Text RecordValue;
 
 
-    //[Header("GameWin")]
-    //[SerializeField] private GameObject lvlComplete;
-    //[SerializeField] private Camera playerCamera;
+    #region Singleton
+    public static InGameMenuController Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+    #endregion
+
     protected override void Start()
     {
         base.Start();

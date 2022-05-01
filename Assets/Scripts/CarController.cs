@@ -10,14 +10,10 @@ using UnityEngine.EventSystems;
 public class CarController : MonoBehaviour
 {
     [Header("Components")]
-    //[SerializeField] private Text textX;
-    //[SerializeField] private Text textY;
-   // [SerializeField] private Text textZ;
-    [SerializeField] private InGameMenuController inGameMenuController;
+    //[SerializeField] private InGameMenuController inGameMenuController;
+    private InGameMenuController inGameMenuController;
     [SerializeField] private WheelJoint2D backWheel;
     [SerializeField] private WheelJoint2D frontWheel;
-    //[SerializeField] private Rigidbody2D rbBackWheel;
-    //[SerializeField] private Rigidbody2D rbFrontWheel;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private UIButtonInfo gasButton;
     [SerializeField] private UIButtonInfo breakButton;
@@ -25,7 +21,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject ObjectFrontWheel;
     [NonSerialized] private Collider2D backWheelCollider2D;
     [NonSerialized] private Collider2D frontWheelCollider2D;
-    //[SerializeField] private Collider2D roadCollider2D;
      static private float startCarPositionX;
 
     [Header("Movement")]
@@ -34,10 +29,6 @@ public class CarController : MonoBehaviour
     [NonSerialized] public float movement = 0f;
     [NonSerialized] public float direction = 0f;
     [SerializeField]private bool isGrounded;
-    // Vector3 acceleration;
-    //private bool moveUp = false;
-    // private bool moveDown = false;
-    // private bool grounded = false;
 
     [Header("Fuel")]
     [SerializeField] private Text textFuelValue;
@@ -64,20 +55,21 @@ public class CarController : MonoBehaviour
     #endregion
     private void Start()
     {
+        //Game menu
+        inGameMenuController = InGameMenuController.Instance;
+        //Positions
+        startCarPositionX = rb.position.x;
         backWheelCollider2D = ObjectBackWheel.gameObject.GetComponent<Collider2D>();
         frontWheelCollider2D = ObjectFrontWheel.gameObject.GetComponent<Collider2D>();
-        startCountOfCoins = countsOfCoins;
-        startCarPositionX = rb.position.x;
         countsOfCoins = (PlayerPrefs.HasKey("PlayerCoins") ? PlayerPrefs.GetInt("PlayerCoins") : 0);
-        //backWheelCollider2D = backWheel.gameObject.GetComponent<Collider2D>();
-        //frontWheelCollider2D = frontWheel.gameObject.GetComponent<Collider2D>();
+        startCountOfCoins = countsOfCoins;
+        //Fuel
         fuel = maxFuel;
         sliderFuel.maxValue = fuel;
         sliderFuel.value = fuel;
     }
     private void Update()
     {
-        
         if (frontWheelCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")) 
             || backWheelCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")))
             isGrounded = true;
@@ -132,6 +124,7 @@ public class CarController : MonoBehaviour
         textFuelValue.text = Math.Ceiling(fuel).ToString();
         sliderFuel.value = fuel;
     }
+
     /*
     private void Update()
     {
@@ -151,6 +144,10 @@ public class CarController : MonoBehaviour
         isGrounded = false ;
         Debug.Log(isGrounded);
     }*/
+    public Vector3 GetPlayerPosition()
+    {
+        return rb.gameObject.transform.position;
+    }
     public int GetPlayerTravelDistance()
     {
         int playerTravelDistance = (int)Math.Round(rb.transform.position.x - startCarPositionX);
@@ -161,7 +158,7 @@ public class CarController : MonoBehaviour
     {
         inGameMenuController.DistanceValue.text = GetPlayerTravelDistance().ToString();
         inGameMenuController.CoinsValue.text = (countsOfCoins - startCountOfCoins).ToString();
-        PlayerPrefs.SetInt("PlayerCoins",  (startCountOfCoins+ countsOfCoins));
+        PlayerPrefs.SetInt("PlayerCoins",  countsOfCoins);
         inGameMenuController.OnPlayerDeath();
     }/*
     public void OnWin()

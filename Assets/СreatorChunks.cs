@@ -7,7 +7,7 @@ public class СreatorChunks : MonoBehaviour
 {
     [Header("Main")]
     //Player
-    [SerializeField] private Transform Player;
+    //[SerializeField] private Transform Player;
     CarController carController;
     //Chunks
     [SerializeField] private GameObject FirstChunk;
@@ -43,11 +43,13 @@ public class СreatorChunks : MonoBehaviour
         blockSideMaterial = Resources.Load<Material>("Material/Blocks/BlockSide"); 
         blockTopMaterial = Resources.Load<Material>("Material/Blocks/BlockTop");
 
-        carController = Player.GetComponent<CarController>();
+        //carController = Player.GetComponent<CarController>();
         chunks = Resources.LoadAll<GameObject>("Prefabs/RoadObjects/RoadChunks");
     }
     void Start()
     {
+        //Player Start necessarily
+        carController = CarController.Instance;
         //Set Road Hill Sprite shape Texture
         if (roadSideSpriteShape != null)
         {
@@ -84,7 +86,8 @@ public class СreatorChunks : MonoBehaviour
     }
     void Update()
     {
-        if(Player.position.x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
+        if(carController.GetPlayerPosition().x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
+        //if (Player.transform.position.x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
         {
             SpawnChunk();
         }
