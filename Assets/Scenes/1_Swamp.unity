@@ -488,10 +488,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e90eb2f576d02f4b9cba942dbdbe5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirstBackgroundChunk: {fileID: 8431907497314820588, guid: 88d8d0bd69cec274894487ad8ccf27ae,
-    type: 3}
+  BackgroundChunks:
+  - {fileID: 8431907497314820588, guid: 88d8d0bd69cec274894487ad8ccf27ae, type: 3}
   OffsetBackgroundChunk: 60
-  extraOffset: 30
+  ExtraOffset: 30
 --- !u!4 &3571271564132244790
 Transform:
   m_ObjectHideFlags: 0
