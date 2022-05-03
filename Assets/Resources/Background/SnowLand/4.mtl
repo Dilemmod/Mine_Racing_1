@@ -1,0 +1,92 @@
+Wavefront OBJ material file
+# Contains 8 materials
+
+newmtl Stone
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Dirt
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Cobblestone
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Water
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+# map_Ka 4-RGBA.png
+map_Kd 4-RGBA.png
+map_d 4-Alpha.png
+# illum 4
+# d 0.535
+# Tr 0.465
+# Tf 0.465 0.465 0.465
+
+newmtl Gravel
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Iron_Ore
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Coal_Ore
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0
+
+newmtl Snow_Block
+# Ns 0
+# Ka 0.2 0.2 0.2
+Kd 1 1 1
+Ks 0 0 0
+# map_Ka 4-RGB.png
+map_Kd 4-RGB.png
+# illum 2
+# d 1
+# Tr 0

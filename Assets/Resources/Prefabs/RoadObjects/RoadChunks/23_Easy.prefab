@@ -173,7 +173,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: e176f1125c1e00e41af5d27a387b671d, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: f6409cd5b514b624eb7ceb0b0b4afd59, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 15, y: 1.5, z: 0}

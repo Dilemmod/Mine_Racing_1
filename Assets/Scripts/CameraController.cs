@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
         Vector3 smoothPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed);
         transform.position = smoothPosition;
         //transform.LookAt(target);
-
-        PlayerFollower.transform.position = new Vector3(smoothPosition.x, PlayerFollower.transform.position.y);
+        if(PlayerFollower!=null)
+            PlayerFollower.transform.position = new Vector3(smoothPosition.x, PlayerFollower.transform.position.y);
     }
 }

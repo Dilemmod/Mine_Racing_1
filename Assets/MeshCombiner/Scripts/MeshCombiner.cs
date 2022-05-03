@@ -12,7 +12,7 @@ public class MeshCombiner : MonoBehaviour
 	private bool createMultiMaterialMesh = false, combineInactiveChildren = false, deactivateCombinedChildren = true,
 		deactivateCombinedChildrenMeshRenderers = false, generateUVMap = false, destroyCombinedChildren = false;
 	[SerializeField]
-	private string folderPath = "Prefabs/CombinedMeshes";
+	private string folderPath = "Resources/Prefabs/CombinedMeshes";
 	[SerializeField]
 	[Tooltip("MeshFilters with Meshes which we don't want to combine into one Mesh.")]
 	private MeshFilter[] meshFiltersToSkip = new MeshFilter[0];

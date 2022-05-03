@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 8547976187455682519}
   SmoothSpeed: 0.125
-  Offset: {x: -3, y: 2.6, z: -14}
+  Offset: {x: -3, y: 2.5, z: -15}
   PlayerFollower: {fileID: 0}
 --- !u!114 &8547976186923500794
 MonoBehaviour:
@@ -528,7 +528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacdc476088466c45afa84b811ab5439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inGameMenuController: {fileID: 0}
   backWheel: {fileID: 8547976187455682514}
   frontWheel: {fileID: 8547976187455682515}
   rb: {fileID: 8547976187455682472}
