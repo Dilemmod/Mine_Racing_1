@@ -50,5 +50,8 @@ public enum UIClipName
     Settings,
     Quit,
     BackgroundMusic,
-    Сongratulations
+    Сongratulations,
+    Engine,
+    Coin,
+
 }

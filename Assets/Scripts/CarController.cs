@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 public class CarController : MonoBehaviour
 {
     [Header("Components")]
-    //[SerializeField] private InGameMenuController inGameMenuController;
+    private UIAudioManager audioManager;
     private InGameMenuController inGameMenuController;
     [SerializeField] private WheelJoint2D backWheel;
     [SerializeField] private WheelJoint2D frontWheel;
@@ -56,6 +56,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         //Game menu
+        audioManager = UIAudioManager.Instance;
         inGameMenuController = InGameMenuController.Instance;
         //Positions
         startCarPositionX = rb.position.x;
@@ -79,10 +80,12 @@ public class CarController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (gasButton.isDown|| Input.GetAxisRaw("Horizontal")==1)
-            direction = -1f ;
-        else if (breakButton.isDown|| Input.GetAxisRaw("Horizontal") == -1)
-            direction = 1f ;
+        if (gasButton.isDown || Input.GetAxisRaw("Horizontal") == 1)
+        {
+            direction = -1f;
+        }
+        else if (breakButton.isDown || Input.GetAxisRaw("Horizontal") == -1)
+            direction = 1f;
         else
             direction = 0f;
         movement = direction * speed;

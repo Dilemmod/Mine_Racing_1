@@ -46,7 +46,8 @@ public class SceneTransition : MonoBehaviour
     }
     public static void Restart()
     {
-        SwitchToScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+       //SwitchToScene(SceneManager.GetActiveScene().buildIndex);
     }
     public static void QuitToDesktop()
     {

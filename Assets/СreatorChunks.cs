@@ -87,7 +87,6 @@ public class СreatorChunks : MonoBehaviour
     void Update()
     {
         if(carController.GetPlayerPosition().x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
-        //if (Player.transform.position.x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
         {
             SpawnChunk();
         }

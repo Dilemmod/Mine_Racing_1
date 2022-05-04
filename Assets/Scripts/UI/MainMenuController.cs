@@ -10,8 +10,6 @@ public class MainMenuController : BaseGameMenuController
 {
     [Header("Player menu")]
     [SerializeField] private GameObject playerMenuButtons;
-    [SerializeField] private GameObject levelMenu;
-    [SerializeField] private GameObject tuningMenu;
     [SerializeField] private GameObject playerMenu;
     [SerializeField] protected Button buttonBack;
     [SerializeField] protected Button buttonToLevelMenu;

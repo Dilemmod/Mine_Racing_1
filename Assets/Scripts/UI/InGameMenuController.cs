@@ -39,6 +39,8 @@ public class InGameMenuController : BaseGameMenuController
         restartGameMenu.onClick.AddListener(OnRestartClicked);
         restartGameOver.onClick.AddListener(OnRestartClicked);
         backToMenu.onClick.AddListener(OnGoToMainMenuClicked);
+        //Run time
+        TimeScale();
     }
 
     protected override void OnDestroy()
@@ -49,18 +51,24 @@ public class InGameMenuController : BaseGameMenuController
         restartGameOver.onClick.RemoveListener(OnRestartClicked);
         backToMenu.onClick.RemoveListener(OnGoToMainMenuClicked);
     }
+    private void TimeScale()
+    {
+        if (menu.activeInHierarchy || gameOverMenu.activeInHierarchy) 
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+    }
     private void OnRestartClicked()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        //SceneTransition.Restart();
+        TimeScale();
+        SceneTransition.Restart();
     }
     protected override void OnChangeMenuStatusClicked()
     {
         base.OnChangeMenuStatusClicked();
-        Time.timeScale =(menu.activeInHierarchy ? 0 : 1);
+        TimeScale();
     }
-
+    
     public void OnGoToMainMenuClicked()
     {
         OnChangeMenuStatusClicked();
@@ -85,6 +93,6 @@ public class InGameMenuController : BaseGameMenuController
         RecordValue.text += "m";
         DistanceValue.text += "m";
         gameOverMenu.SetActive(true);
-        Time.timeScale = 0;
+        TimeScale();
     }
 }
