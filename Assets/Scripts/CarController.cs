@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
 {
     [Header("Components")]
     private UIAudioManager audioManager;
+    private AudioSource CarSound;
     private InGameMenuController inGameMenuController;
     [SerializeField] private WheelJoint2D backWheel;
     [SerializeField] private WheelJoint2D frontWheel;
@@ -58,7 +59,10 @@ public class CarController : MonoBehaviour
         //Game menu
         audioManager = UIAudioManager.Instance;
         inGameMenuController = InGameMenuController.Instance;
-        //Positions
+        //7 == EngineSound
+        CarSound = audioManager.GetComponents<AudioSource>()[7];
+        CarSound.Play();
+
         startCarPositionX = rb.position.x;
         backWheelCollider2D = ObjectBackWheel.gameObject.GetComponent<Collider2D>();
         frontWheelCollider2D = ObjectFrontWheel.gameObject.GetComponent<Collider2D>();
@@ -126,6 +130,17 @@ public class CarController : MonoBehaviour
         textCoinsValue.text = countsOfCoins.ToString();
         textFuelValue.text = Math.Ceiling(fuel).ToString();
         sliderFuel.value = fuel;
+
+        //Motor Sound
+        // Debug.Log("rotationSpeed = " + ObjectBackWheel.transform.ro);
+        //  Debug.Log("motor.motorSpeed = " + backWheel.);
+        Debug.Log(backWheel.GetComponent<Rigidbody2D>().velocity.x);
+        if (direction == -1|| direction == 1)
+            CarSound.pitch = Mathf.Clamp(backWheel.GetComponent<Rigidbody2D>().velocity.x-1, 0.3f, 3);
+        else
+            CarSound.pitch = (1f);
+
+
     }
 
     /*
@@ -163,9 +178,5 @@ public class CarController : MonoBehaviour
         inGameMenuController.CoinsValue.text = (countsOfCoins - startCountOfCoins).ToString();
         PlayerPrefs.SetInt("PlayerCoins",  countsOfCoins);
         inGameMenuController.OnPlayerDeath();
-    }/*
-    public void OnWin()
-    {
-        inGameMenuController.OnPlayerWin();
-    }*/
+    }
 }
