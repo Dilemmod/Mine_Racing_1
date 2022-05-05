@@ -9,10 +9,15 @@ using UnityEngine.EventSystems;
 //[RequireComponent(typeof(Rigidbody2D))]
 public class CarController : MonoBehaviour
 {
-    [Header("Components")]
+    [Header("Audio")]
+    [SerializeField] private float PitchRiseRate = 0.01f;
+    [SerializeField] private float PitchSinkRate = 0.05f;
     private UIAudioManager audioManager;
     private AudioSource CarSound;
+    private float pitch = 0.5f;
+    [Header("Components")]
     private InGameMenuController inGameMenuController;
+    [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] private WheelJoint2D backWheel;
     [SerializeField] private WheelJoint2D frontWheel;
     [SerializeField] private Rigidbody2D rb;
@@ -22,14 +27,14 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject ObjectFrontWheel;
     [NonSerialized] private Collider2D backWheelCollider2D;
     [NonSerialized] private Collider2D frontWheelCollider2D;
-     static private float startCarPositionX;
+    static private float startCarPositionX;
 
     [Header("Movement")]
     [SerializeField] private float speed = 1500f;
     [SerializeField] private float rotationSpeed = 10f;
     [NonSerialized] public float movement = 0f;
     [NonSerialized] public float direction = 0f;
-    [SerializeField]private bool isGrounded;
+    [SerializeField] private bool isGrounded;
 
     [Header("Fuel")]
     [SerializeField] private Text textFuelValue;
@@ -50,7 +55,7 @@ public class CarController : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        else 
+        else
             Destroy(gameObject);
     }
     #endregion
@@ -75,13 +80,13 @@ public class CarController : MonoBehaviour
     }
     private void Update()
     {
-        if (frontWheelCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")) 
+        if (frontWheelCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground"))
             || backWheelCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")))
             isGrounded = true;
         else
             isGrounded = false;
     }
-    
+
     private void FixedUpdate()
     {
         if (gasButton.isDown || Input.GetAxisRaw("Horizontal") == 1)
@@ -99,7 +104,7 @@ public class CarController : MonoBehaviour
             //rbFrontWheel.AddTorque(movement * Time.fixedDeltaTime);
             //rb.AddTorque(movement * Time.fixedDeltaTime);
             //Motor
-            
+
             if (movement == 0f)
             {
                 backWheel.useMotor = false;
@@ -115,11 +120,13 @@ public class CarController : MonoBehaviour
                     backWheel.motor = motor;
                 }
                 else
-                    rb.AddTorque(-direction * rotationSpeed * Time.fixedDeltaTime*100f);
+                {
+                    rb.AddTorque(-direction * rotationSpeed * Time.fixedDeltaTime * 100f);
+                }
             }
             //rb.AddTorque(-acceleration.x * rotationSpeed );
             //rb.AddTorque(rotation * rotationSpeed * Time.fixedDeltaTime);
-               
+
         }
         if (movement != 0f)
             fuel -= fuelconsumption * Time.fixedDeltaTime;
@@ -132,14 +139,38 @@ public class CarController : MonoBehaviour
         sliderFuel.value = fuel;
 
         //Motor Sound
-        // Debug.Log("rotationSpeed = " + ObjectBackWheel.transform.ro);
-        //  Debug.Log("motor.motorSpeed = " + backWheel.);
-        Debug.Log(backWheel.GetComponent<Rigidbody2D>().velocity.x);
-        if (direction == -1|| direction == 1)
-            CarSound.pitch = Mathf.Clamp(backWheel.GetComponent<Rigidbody2D>().velocity.x-1, 0.3f, 3);
+        //CarSound.pitch = Mathf.Clamp(backWheel.GetComponent<Rigidbody2D>().velocity.x - 1, 0.3f, 3);
+        //float pitch = Mathf.Clamp(backWheel.GetComponent<Rigidbody2D>().velocity.x - 2, 0.3f, 3);
+        /*
+        bool play = false;
+        if (isGrounded && backWheel.GetComponent<Rigidbody2D>().velocity.x > 0 && !play)
+        {
+            particleSystem.Play();
+            play = true;
+            Debug.Log("play = " + play + "velocity = " + backWheel.GetComponent<Rigidbody2D>().velocity.x);
+        }
+        else if(!isGrounded || backWheel.GetComponent<Rigidbody2D>().velocity.x < 0)
+        {
+            particleSystem.Stop();
+            play = false;
+        }*/
+        particleSystem.playbackSpeed = 2;
+        if (direction == -1)
+        {
+            if (isGrounded && particleSystem.isStopped)
+                particleSystem.Play();
+            if(pitch <= 2.5)
+                pitch += PitchRiseRate;
+        }
         else
-            CarSound.pitch = (1f);
-
+        {
+            if ((!isGrounded && particleSystem.isPlaying))
+                particleSystem.Stop();
+            if(pitch >= 0.5)
+                pitch -= PitchSinkRate;
+        }
+        CarSound.pitch = pitch;
+        
 
     }
 
@@ -176,7 +207,7 @@ public class CarController : MonoBehaviour
     {
         inGameMenuController.DistanceValue.text = GetPlayerTravelDistance().ToString();
         inGameMenuController.CoinsValue.text = (countsOfCoins - startCountOfCoins).ToString();
-        PlayerPrefs.SetInt("PlayerCoins",  countsOfCoins);
+        PlayerPrefs.SetInt("PlayerCoins", countsOfCoins);
         inGameMenuController.OnPlayerDeath();
     }
 }
