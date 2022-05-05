@@ -18,6 +18,7 @@ TagManager:
   - ChunkEasy
   - ChunkMedium
   - ChunkHard
+  - Player_Followers
   layers:
   - Default
   - TransparentFX

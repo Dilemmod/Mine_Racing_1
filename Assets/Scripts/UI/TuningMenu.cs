@@ -13,6 +13,8 @@ public class TuningMenu : MonoBehaviour
     [SerializeField] private Button unlock;
     [SerializeField] private Button leftArrow;
     [SerializeField] private Button rightArrow;
+
+    private UIAudioManager audioManager;
     //[SerializeField] private GameObject[] cars;
     //временно
     private int usedCarID = 0;
@@ -64,7 +66,7 @@ public class TuningMenu : MonoBehaviour
     }
     private void OnUnlockClicked()
     {
-
+        PlayerPrefs.SetString("PlayerCurrentCarName", GameObject.FindGameObjectWithTag("Player").name);
     }
 
 

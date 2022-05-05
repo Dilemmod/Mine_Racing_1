@@ -20,7 +20,7 @@ public class СreatorBackground : MonoBehaviour
         BackgroundChunk = BackgroundChunks[Random.Range(0, BackgroundChunks.Length)];
         spawnedBackgroundChunks.Add(BackgroundChunk);
         BackgroundChunk = Instantiate(BackgroundChunk);
-        BackgroundChunk.transform.parent = this.transform;
+        BackgroundChunk.transform.SetParent(transform);
     }
     void Update()
     {
@@ -40,8 +40,9 @@ public class СreatorBackground : MonoBehaviour
         if (newBackgroundChunk.GetComponent<HowRotateObject>()!=null)
             degrees = newBackgroundChunk.GetComponent<HowRotateObject>().GetRandomRotate();
         newBackgroundChunk.transform.Rotate(0, degrees, 0);
-        newBackgroundChunk.transform.parent = this.transform;
+        newBackgroundChunk.transform.SetParent(transform);
         spawnedBackgroundChunks.Add(newBackgroundChunk);
+
 
         if (spawnedBackgroundChunks.Count >= 4)
         {

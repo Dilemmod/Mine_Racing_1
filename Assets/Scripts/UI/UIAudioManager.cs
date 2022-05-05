@@ -32,7 +32,6 @@ public class UIAudioManager : MonoBehaviour
                 s.AudioSource.volume = s.Volume;
                 s.AudioSource.pitch = s.Pitch;
                 s.AudioSource.loop = s.Loop;
-               // s.AudioSource.playOnAwake = s.PlayOnAwake
                 s.AudioSource.outputAudioMixerGroup = audioMixerGroup;
             }
         }

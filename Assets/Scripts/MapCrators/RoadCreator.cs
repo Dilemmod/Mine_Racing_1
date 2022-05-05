@@ -17,8 +17,9 @@ public class RoadCreator : MonoBehaviour
     }
     void Start()
     {
+        Destroy(tempRoadPlaneGameObject);
         //Parent object
-        Instantiate(tempRoadPlaneGameObject);
+        tempRoadPlaneGameObject = Instantiate(tempRoadPlaneGameObject);
         tempRoadPlaneGameObject.name = "RoadObjectContainer";
         tempRoadPlaneGameObject.transform.parent = this.gameObject.transform;
         //Create road

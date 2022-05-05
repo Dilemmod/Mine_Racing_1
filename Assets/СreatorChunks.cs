@@ -73,7 +73,7 @@ public class СreatorChunks : MonoBehaviour
         //First GameObject
         spawnChunks.Add(FirstChunk);
         FirstChunk = Instantiate(FirstChunk);
-        FirstChunk.transform.parent = this.transform;
+        FirstChunk.transform.SetParent(transform);
 
         //Gat begin postion of chunk
         chunksBeginPositions = new Vector3[chunks.Length];
@@ -194,7 +194,7 @@ public class СreatorChunks : MonoBehaviour
 
         if (spawnChunks.Count >= 4)
         {
-            if(FirstChunk!=null)
+            if(FirstChunk !=null)
                 Destroy(FirstChunk);
             else 
                 Destroy(spawnChunks[0].gameObject);
