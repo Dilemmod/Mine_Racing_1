@@ -8,11 +8,13 @@ public class PlayerController : MonoBehaviour
     private new GameObject camera;
     private void Start()
     {
+        //string playerCurrentCarName = "Jeep";
         camera = Resources.Load<GameObject>("Prefabs/Cameras/Main_Camera_3D");
         car = Resources.Load<GameObject>("Prefabs/PlayerCarsPrefab/" + PlayerPrefs.GetString("PlayerCurrentCarName"));
+        //car = Resources.Load<GameObject>("Prefabs/PlayerCarsPrefab/"+ playerCurrentCarName);
         car = Instantiate(car);
         camera = Instantiate(camera);
-        car.transform.position = transform.position;
+        car.transform.position = new Vector3( transform.position.x, transform.position.y, car.transform.position.z);
         camera.transform.position = new Vector3(
             transform.position.x,
             transform.position.y,

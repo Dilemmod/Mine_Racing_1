@@ -27,26 +27,33 @@ public class CarController : MonoBehaviour
     static private float startCarPositionX;
     private Collider2D backWheelCollider2D;
     private Collider2D frontWheelCollider2D;
-    [SerializeField] private WheelJoint2D backWheel;
-    [SerializeField] private WheelJoint2D frontWheel;
-    [SerializeField] private GameObject ObjectBackWheel;
-    [SerializeField] private GameObject ObjectFrontWheel;
+    private WheelJoint2D[] wheelJoints2D;
+    private List<GameObject> wheelGameObjects = new List<GameObject>();
+    //private WheelJoint2D wheelBackJoint2D;
+    private GameObject wheelFrontGemeObject; 
+    private GameObject wheelBackGemeObject;
 
     [Header("Movement")]
-    [SerializeField] private float speed = 1500f;
-    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float rotationSpeed = 20;
     [NonSerialized] public float movement = 0f;
     [NonSerialized] public float direction = 0f;
-    [SerializeField] private bool isGrounded;
+    private bool isGrounded;
 
     [Header("Fuel")]
     [NonSerialized] public float fuel;
     [SerializeField] public float maxFuel = 100f;
-    [SerializeField] private float fuelconsumption = 1f;
 
     [Header("Coins")]
     [SerializeField] public int countsOfCoins;
     static private int startCountOfCoins;
+
+    //Player customize
+    private float speed = 1200;
+    private float fuelEfficiency = 4f;
+    private float frontWheelGravity = 5;
+    private float backWheelGravity = 1;
+    private int motorCount = 1;
+
 
     #region Singleton
     public static CarController Instance;
@@ -61,15 +68,45 @@ public class CarController : MonoBehaviour
     #endregion
     private void Start()
     {
+        //Player customize
+        speed = 
+            PlayerPrefs.HasKey(transform.name + "speed") ? 
+            PlayerPrefs.GetFloat(transform.name + "speed")*50 : speed;
+        fuelEfficiency = 
+            PlayerPrefs.HasKey(transform.name + "fuelEfficiency") ? 
+            PlayerPrefs.GetFloat(transform.name + "fuelEfficiency") : fuelEfficiency;
+        frontWheelGravity = 
+            PlayerPrefs.HasKey(transform.name + "gravity") ?
+            PlayerPrefs.GetFloat(transform.name + "gravity") : frontWheelGravity;
+        motorCount =
+            PlayerPrefs.HasKey(transform.name + "motorCount") ?
+            (int)PlayerPrefs.GetFloat(transform.name + "motorCount") : motorCount;
 
         //Game menu
         audioManager = UIAudioManager.Instance;
         inGameMenuController = InGameMenuController.Instance;
-        if (inGameMenuController == null|| audioManager==null)
+        if (inGameMenuController == null || audioManager == null)
         {
             Debug.LogError("Add Canvas with audioManager and inGameMenuController");
             return;
         }
+
+        //Wheels objects
+        wheelJoints2D = GetComponents<WheelJoint2D>();
+        foreach (Transform Child in gameObject.transform)
+        {
+            if (Child.gameObject.layer == 9)
+                wheelGameObjects.Add(Child.gameObject);
+        }
+        //Wheels mass
+        wheelGameObjects[0].GetComponent<Rigidbody2D>().mass = frontWheelGravity;
+        wheelGameObjects[wheelGameObjects.Count-1].GetComponent<Rigidbody2D>().mass = backWheelGravity;
+
+        //Wheels assignment
+        wheelFrontGemeObject = wheelGameObjects[0];
+        wheelBackGemeObject = wheelGameObjects[wheelGameObjects.Count-1];
+
+
         //Get Objects
         particleSystem =  GetComponentInChildren<ParticleSystem>();
         rb = GetComponent<Rigidbody2D>();
@@ -80,8 +117,8 @@ public class CarController : MonoBehaviour
         sliderFuel = GameObject.Find("Canvas/Bars/FuelSlider").GetComponent<Slider>();
 
         startCarPositionX = rb.position.x;
-        backWheelCollider2D = ObjectBackWheel.gameObject.GetComponent<Collider2D>();
-        frontWheelCollider2D = ObjectFrontWheel.gameObject.GetComponent<Collider2D>();
+        backWheelCollider2D = wheelBackGemeObject.gameObject.GetComponent<Collider2D>();
+        frontWheelCollider2D = wheelFrontGemeObject.gameObject.GetComponent<Collider2D>();
         countsOfCoins = (PlayerPrefs.HasKey("PlayerCoins") ? PlayerPrefs.GetInt("PlayerCoins") : 0);
         startCountOfCoins = countsOfCoins;
         //Fuel
@@ -101,6 +138,7 @@ public class CarController : MonoBehaviour
             isGrounded = false;
     }
 
+    [Obsolete]
     private void FixedUpdate()
     {
         if (gasButton.isDown || Input.GetAxisRaw("Horizontal") == 1)
@@ -116,17 +154,21 @@ public class CarController : MonoBehaviour
         {
             if (movement == 0f)
             {
-                backWheel.useMotor = false;
-                frontWheel.useMotor = false;
+                for (int i = 0; i < motorCount; i++)
+                {
+                    wheelJoints2D[i].useMotor = false;
+                }
             }
             else
             {
                 if (isGrounded)
                 {
-                    JointMotor2D motor = new JointMotor2D();
-                    motor = new JointMotor2D { motorSpeed = movement, maxMotorTorque = backWheel.motor.maxMotorTorque };
-                    //frontWheel.motor = motor;
-                    backWheel.motor = motor;
+                    JointMotor2D motor = new JointMotor2D 
+                    { motorSpeed = movement, maxMotorTorque = wheelJoints2D[wheelJoints2D.Length - 1].motor.maxMotorTorque };
+                    for (int i = 0; i < motorCount; i++)
+                    {
+                        wheelJoints2D[i].motor = motor;
+                    }
                 }
                 else
                 {
@@ -138,9 +180,9 @@ public class CarController : MonoBehaviour
 
         }
         if (movement != 0f)
-            fuel -= fuelconsumption * Time.fixedDeltaTime;
+            fuel -= fuelEfficiency * Time.fixedDeltaTime;
         else
-            fuel -= (fuelconsumption / 5) * Time.fixedDeltaTime;
+            fuel -= (fuelEfficiency / 5) * Time.fixedDeltaTime;
         if (fuel <= 0f)
             OnDeath();
         textCoinsValue.text = countsOfCoins.ToString();
@@ -165,31 +207,17 @@ public class CarController : MonoBehaviour
         }
         CarSound.pitch = pitch;
     }
-    /*
-    private void Update()
-    {
-        movement = -Input.GetAxisRaw("Horizontal") * speed;
-        if(!grounded)
-            rotation = Input.GetAxisRaw("Horizontal");
-        textCoinsValue.text = countsOfCoins.ToString();
-    }
-    *//*
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        isGrounded = true;
-        Debug.Log(other.gameObject.name);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isGrounded = false ;
-        Debug.Log(isGrounded);
-    }*/
     public Vector3 GetPlayerPosition()
     {
-        if (rb.gameObject != null)
+        try
+        {
             return rb.gameObject.transform.position;
-        else
-            return new Vector3(0,0,0);
+        }
+        catch 
+        {
+            return new Vector3(0, 0, 0);
+        }
+        
     }
     public int GetPlayerTravelDistance()
     {

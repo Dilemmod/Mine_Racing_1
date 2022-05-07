@@ -33,10 +33,9 @@ public class MainMenuController : BaseGameMenuController
         buttonToTuningMenu.onClick.AddListener(OnTuningMenuClecked);
         if (PlayerPrefs.HasKey("PlayerCoins"))
             playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>().text = PlayerPrefs.GetInt("PlayerCoins").ToString();
+        else
+            PlayerPrefs.SetInt("PlayerCoins", 0);
         audioManager.Play(UIClipName.BackgroundMusic);
-        //Player Car Name
-        PlayerPrefs.SetString("PlayerCurrentCarName",
-            (PlayerPrefs.HasKey("PlayerCurrentCarName") ? PlayerPrefs.GetString("PlayerCurrentCarName") : "InitialVehicle"));
     }
     protected override void OnDestroy()
     {

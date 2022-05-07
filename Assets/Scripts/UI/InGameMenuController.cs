@@ -76,6 +76,8 @@ public class InGameMenuController : BaseGameMenuController
     }
     public void OnPlayerDeath()
     {
+        audioManager.Stop(UIClipName.BackgroundMusic);
+        audioManager.Stop(UIClipName.Engine);
         //-3.4 2.8 -14
         //-2.4 2 -8
         //PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex+"PlayerRecord", );

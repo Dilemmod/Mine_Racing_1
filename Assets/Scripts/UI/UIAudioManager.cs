@@ -48,6 +48,10 @@ public class UIAudioManager : MonoBehaviour
             return sounds[0];
         }
     }
+    public void Stop(UIClipName name)
+    {
+        GetClip(name).AudioSource.Stop();
+    }
     public void Play(UIClipName name)
     {
         GetClip(name).AudioSource.Play();
@@ -71,6 +75,7 @@ public enum UIClipName
     Fuel,
     Block_25,
     Block_100,
-    Block_500
-
+    Block_500,
+    Buy,
+    Fail
 }
