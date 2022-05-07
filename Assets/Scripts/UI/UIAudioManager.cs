@@ -35,7 +35,7 @@ public class UIAudioManager : MonoBehaviour
                 s.AudioSource.outputAudioMixerGroup = audioMixerGroup;
             }
         }
-        Play(UIClipName.BackgroundMusic);
+        //Play(UIClipName.BackgroundMusic);
     }
     public UiSound GetClip(UIClipName name)
     {
@@ -64,7 +64,8 @@ public enum UIClipName
     Reset,
     Settings,
     Quit,
-    BackgroundMusic,
+    BackgroundMusicMainMenu,
+    BackgroundMusicGameMenu,
     Сongratulations,
     Engine,
     Drowned,
@@ -77,5 +78,6 @@ public enum UIClipName
     Block_100,
     Block_500,
     Buy,
-    Fail
+    Fail,
+    Select
 }

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class InGameMenuController : BaseGameMenuController
 {
     [Header("Buttons")]
+    [SerializeField] private Button openMenu;
     [SerializeField] private Button restartGameMenu;
     [SerializeField] private Button restartGameOver;
     [SerializeField] private Button backToMenu;
@@ -35,6 +36,10 @@ public class InGameMenuController : BaseGameMenuController
     protected override void Start()
     {
         base.Start();
+        //Auio
+        audioManager.Play(UIClipName.BackgroundMusicGameMenu);
+
+        openMenu.onClick.AddListener(OnOpenMenuClicked);
         play.onClick.AddListener(OnChangeMenuStatusClicked);
         restartGameMenu.onClick.AddListener(OnRestartClicked);
         restartGameOver.onClick.AddListener(OnRestartClicked);
@@ -58,6 +63,11 @@ public class InGameMenuController : BaseGameMenuController
         else
             Time.timeScale = 1;
     }
+
+    private void OnOpenMenuClicked()
+    {
+        OnChangeMenuStatusClicked();
+    }
     private void OnRestartClicked()
     {
         TimeScale();
@@ -76,7 +86,7 @@ public class InGameMenuController : BaseGameMenuController
     }
     public void OnPlayerDeath()
     {
-        audioManager.Stop(UIClipName.BackgroundMusic);
+        audioManager.Stop(UIClipName.BackgroundMusicGameMenu);
         audioManager.Stop(UIClipName.Engine);
         //-3.4 2.8 -14
         //-2.4 2 -8

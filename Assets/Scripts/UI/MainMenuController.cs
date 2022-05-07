@@ -22,30 +22,51 @@ public class MainMenuController : BaseGameMenuController
     [SerializeField] private Animator mainMenuAnimator;
 
     private CameraControllerMainMenu cameraControllerMainMenu;
-    
+    public Text playerCoinsText { get; set; }
+
+    #region Singleton
+    public static MainMenuController Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+    #endregion
+
     protected override void Start()
     {
         base.Start();
-        cameraControllerMainMenu = Instance;
-        play.onClick.AddListener(OnPlayClecked);
-        buttonBack.onClick.AddListener(OnBackClecked);
-        buttonToLevelMenu.onClick.AddListener(OnLevelMenuClecked);
-        buttonToTuningMenu.onClick.AddListener(OnTuningMenuClecked);
-        if (PlayerPrefs.HasKey("PlayerCoins"))
-            playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>().text = PlayerPrefs.GetInt("PlayerCoins").ToString();
-        else
+        //PlayerPrefs.DeleteAll();Debug.LogWarning("DEleteAll");
+        //Main menu
+        mainMenuAnimator.SetTrigger("Open");
+        //Auio
+        audioManager.Play(UIClipName.BackgroundMusicMainMenu);
+
+        cameraControllerMainMenu = CameraControllerMainMenu.Instance;
+        play.onClick.AddListener(OnPlayClicked);
+        buttonBack.onClick.AddListener(OnBackClicked);
+        buttonToLevelMenu.onClick.AddListener(OnLevelMenuClicked);
+        buttonToTuningMenu.onClick.AddListener(OnTuningMenuClicked);
+        playerCoinsText = playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>();
+        if (!PlayerPrefs.HasKey("PlayerCoins"))
             PlayerPrefs.SetInt("PlayerCoins", 0);
-        audioManager.Play(UIClipName.BackgroundMusic);
+        //Debug.LogWarning("PlayerCoins = 5000");
+        playerCoinsText.text = PlayerPrefs.GetInt("PlayerCoins").ToString();
+        //playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>().text =
+        //PlayerPrefs.SetInt("PlayerCoins", 0);
     }
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        buttonBack.onClick.RemoveListener(OnBackClecked);
-        play.onClick.RemoveListener(OnPlayClecked);
-        buttonToLevelMenu.onClick.RemoveListener(OnLevelMenuClecked);
-        buttonToTuningMenu.onClick.RemoveListener(OnTuningMenuClecked);
+        buttonBack.onClick.RemoveListener(OnBackClicked);
+        play.onClick.RemoveListener(OnPlayClicked);
+        buttonToLevelMenu.onClick.RemoveListener(OnLevelMenuClicked);
+        buttonToTuningMenu.onClick.RemoveListener(OnTuningMenuClicked);
     }
-    private void OnPlayClecked()
+    private void OnPlayClicked()
     {
         mainMenuAnimator.SetTrigger("Close");
         playerMenuAnimator.SetTrigger("Open");
@@ -53,7 +74,7 @@ public class MainMenuController : BaseGameMenuController
         OnChangePlayerMenuStatus();
         audioManager.Play(UIClipName.Play);
     }
-    private void OnBackClecked()
+    private void OnBackClicked()
     {
         switch (cameraControllerMainMenu.moveTo)
         {
@@ -74,14 +95,14 @@ public class MainMenuController : BaseGameMenuController
         audioManager.Play(UIClipName.Quit);
         OnChangePlayerMenuStatus();
     }
-    private void OnLevelMenuClecked()
+    private void OnLevelMenuClicked()
     {
         cameraControllerMainMenu.CameraPosition(MenuPosition.levelTarget);
         audioManager.Play(UIClipName.LvlMenu);
         levelMenuAnimator.SetTrigger("Open");
         OnChangePlayerMenuStatus();
     }
-    private void OnTuningMenuClecked()
+    private void OnTuningMenuClicked()
     {
         cameraControllerMainMenu.CameraPosition(MenuPosition.tuningTarget);
         audioManager.Play(UIClipName.LvlMenu);

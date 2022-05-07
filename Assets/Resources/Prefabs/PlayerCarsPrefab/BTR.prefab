@@ -5214,9 +5214,9 @@ GameObject:
   - component: {fileID: 3341694371523644639}
   - component: {fileID: 3341694371523644632}
   - component: {fileID: 3341694371523644633}
-  - component: {fileID: 3341694371523644580}
-  - component: {fileID: 6693537080057912734}
   - component: {fileID: 3341694371523644581}
+  - component: {fileID: 6693537080057912734}
+  - component: {fileID: 3341694371523644580}
   - component: {fileID: 3341694371523644582}
   m_Layer: 8
   m_Name: BTR
@@ -5318,7 +5318,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.4594307, y: 0.45305204}
   m_EdgeRadius: 0
---- !u!235 &3341694371523644580
+--- !u!235 &3341694371523644581
 WheelJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5328,11 +5328,11 @@ WheelJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 3341694369843660273}
+  m_ConnectedRigidBody: {fileID: 3341694371767477166}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0.91946745, y: -0.1740861}
+  m_Anchor: {x: -0.9127597, y: -0.17798758}
   m_ConnectedAnchor: {x: 0, y: 1.083}
   m_Suspension:
     m_DampingRatio: 0.7
@@ -5366,7 +5366,7 @@ WheelJoint2D:
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 10000
---- !u!235 &3341694371523644581
+--- !u!235 &3341694371523644580
 WheelJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5376,11 +5376,11 @@ WheelJoint2D:
   m_Enabled: 1
   serializedVersion: 4
   m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 3341694371767477166}
+  m_ConnectedRigidBody: {fileID: 3341694369843660273}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: -0.9127597, y: -0.17798758}
+  m_Anchor: {x: 0.91946745, y: -0.1740861}
   m_ConnectedAnchor: {x: 0, y: 1.083}
   m_Suspension:
     m_DampingRatio: 0.7
@@ -5407,6 +5407,11 @@ MonoBehaviour:
   rotationSpeed: 30
   maxFuel: 100
   countsOfCoins: 0
+  speed: 1200
+  fuelEfficiency: 4
+  frontWheelGravity: 5
+  backWheelGravity: 1
+  motorCount: 1
 --- !u!1 &3341694371767477161
 GameObject:
   m_ObjectHideFlags: 0

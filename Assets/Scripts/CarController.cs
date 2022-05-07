@@ -47,12 +47,12 @@ public class CarController : MonoBehaviour
     [SerializeField] public int countsOfCoins;
     static private int startCountOfCoins;
 
-    //Player customize
-    private float speed = 1200;
-    private float fuelEfficiency = 4f;
-    private float frontWheelGravity = 5;
-    private float backWheelGravity = 1;
-    private int motorCount = 1;
+    [Header("Player customize")]
+    [SerializeField] private float speed = 1200;
+    [SerializeField] private float fuelEfficiency = 4f;
+    [SerializeField] private float frontWheelGravity = 5;
+    [SerializeField] private float backWheelGravity = 1;
+    [SerializeField] private int motorCount = 1;
 
 
     #region Singleton
@@ -69,18 +69,19 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         //Player customize
+        string playerCarName = transform.name.Replace("(Clone)","");
         speed = 
-            PlayerPrefs.HasKey(transform.name + "speed") ? 
-            PlayerPrefs.GetFloat(transform.name + "speed")*50 : speed;
+            PlayerPrefs.HasKey(playerCarName + "speed") ? 
+            PlayerPrefs.GetFloat(playerCarName + "speed")*50 : speed;
         fuelEfficiency = 
-            PlayerPrefs.HasKey(transform.name + "fuelEfficiency") ? 
-            PlayerPrefs.GetFloat(transform.name + "fuelEfficiency") : fuelEfficiency;
+            PlayerPrefs.HasKey(playerCarName + "fuelEfficiency") ? 
+            PlayerPrefs.GetFloat(playerCarName + "fuelEfficiency") : fuelEfficiency;
         frontWheelGravity = 
-            PlayerPrefs.HasKey(transform.name + "gravity") ?
-            PlayerPrefs.GetFloat(transform.name + "gravity") : frontWheelGravity;
+            PlayerPrefs.HasKey(playerCarName + "gravity") ?
+            PlayerPrefs.GetFloat(playerCarName + "gravity") : frontWheelGravity;
         motorCount =
-            PlayerPrefs.HasKey(transform.name + "motorCount") ?
-            (int)PlayerPrefs.GetFloat(transform.name + "motorCount") : motorCount;
+            PlayerPrefs.HasKey(playerCarName + "motorCount") ?
+            (int)PlayerPrefs.GetFloat(playerCarName + "motorCount") : motorCount;
 
         //Game menu
         audioManager = UIAudioManager.Instance;

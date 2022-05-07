@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class TuningMenu : MonoBehaviour
 {
-    //-70
     [Header("Cars")]
     [SerializeField] private GameObject playerCars;
 
     [Header("Buttons")]
     [SerializeField] private Button unlock;
     private Text priceText;
+    private Text priceNameText;
     [SerializeField] private Button leftArrow;
     [SerializeField] private Button rightArrow;
 
@@ -21,6 +21,7 @@ public class TuningMenu : MonoBehaviour
     [SerializeField] private Slider fuelEfficiencySlider;
     [SerializeField] private Slider gravitySlider;
     [SerializeField] private Slider motorsCountSlider;
+    //private Image NotPurchasedCarsImage;
 
     private UIAudioManager audioManager;
     private GameObject currentCar;
@@ -29,11 +30,13 @@ public class TuningMenu : MonoBehaviour
     private void Start()
     {
         audioManager = UIAudioManager.Instance;
+        //NotPurchasedCarsImage = transform.GetChild(1).GetComponent<Image>();
         priceText = unlock.transform.GetChild(0).GetComponentInChildren<Text>();
+        priceNameText = unlock.transform.GetChild(2).GetComponent<Text>();
         //Current Player Car
         PlayerPrefs.SetString("PlayerCurrentCarName",
             PlayerPrefs.HasKey("PlayerCurrentCarName") ?
-            PlayerPrefs.GetString("PlayerCurrentCarName") : "Jeep");
+            PlayerPrefs.GetString("PlayerCurrentCarName") : "Bentley");
 
         ActivateCarByName(PlayerPrefs.GetString("PlayerCurrentCarName"));
     }
@@ -55,13 +58,17 @@ public class TuningMenu : MonoBehaviour
     }
     private void ActivateCarByName(string name)
     {
-        foreach (Transform child in playerCars.transform)
+        for (int i = 0; i < playerCars.transform.childCount; i++)
         {
-            if (child.name == name)
-                currentCar = child.gameObject;
-            child.gameObject.SetActive(false);
+            if (playerCars.transform.GetChild(i).name == name)
+            {
+                usedCarID = i;
+                currentCar = playerCars.transform.GetChild(i).gameObject;
+            }
+            playerCars.transform.GetChild(i).gameObject.SetActive(false);
         }
         SetSlidersToDefault();
+        SwitchPlayerBoughtCarMenu();
     }
     private void ActivateCarByID(int ID)
     {
@@ -69,6 +76,49 @@ public class TuningMenu : MonoBehaviour
             child.gameObject.SetActive(false);
         currentCar = playerCars.transform.GetChild(ID).gameObject;
         SetSlidersToDefault();
+        SwitchPlayerBoughtCarMenu();
+    }
+    private void SwitchPriceText(StateCarPrice state)
+    {
+        switch (state)
+        {
+            case StateCarPrice.SelectCar:
+                currentStateCarPrice = StateCarPrice.SelectCar;
+                transform.GetChild(1).gameObject.SetActive(false);
+                priceNameText.text = "CAR";
+                priceText.text = "SELECT";
+                break;
+            case StateCarPrice.Upgrade:
+                currentStateCarPrice = StateCarPrice.Upgrade;
+                transform.GetChild(1).gameObject.SetActive(false);
+                priceNameText.text = "UP PRICE";
+
+                break;
+            case StateCarPrice.BuyCar:
+                currentStateCarPrice = StateCarPrice.BuyCar;
+                transform.GetChild(1).gameObject.SetActive(true);
+                priceNameText.text = "CAR PRICE";
+                priceText.text = PlayerPrefs.GetFloat(currentCar.name + "carPrice").ToString();
+                break;
+        }
+    }
+    private StateCarPrice currentStateCarPrice { get; set; }
+    enum StateCarPrice
+    {
+        SelectCar,
+        Upgrade,
+        BuyCar
+    }
+    private void SwitchPlayerBoughtCarMenu()
+    {
+        if (PlayerPrefs.GetFloat(currentCar.name + "playerBoughtCar") == 1f)
+        {
+            SwitchPriceText(StateCarPrice.SelectCar);
+        }
+        else
+        {
+            SwitchPriceText(StateCarPrice.BuyCar);
+        }
     }
     private void SetSlidersToDefault()
     {
@@ -80,6 +130,11 @@ public class TuningMenu : MonoBehaviour
         fuelEfficiencySlider.value = PlayerPrefs.GetFloat(currentCar.name + "fuelEfficiency");
         gravitySlider.value = PlayerPrefs.GetFloat(currentCar.name + "gravity");
         motorsCountSlider.value = (int)PlayerPrefs.GetFloat(currentCar.name + "motorCount");
+        // Set visualized text
+        SetTextValueInSlider(speedSlider);
+        SetTextValueInSlider(fuelEfficiencySlider);
+        SetTextValueInSlider(gravitySlider);
+        SetTextValueInSlider(motorsCountSlider);
     }
     private void SetSlidersToDefault(Slider slider)
     {
@@ -101,21 +156,40 @@ public class TuningMenu : MonoBehaviour
     private void OnUnlockClicked()
     {
         int plyerCoins = PlayerPrefs.GetInt("PlayerCoins");
-        int currentPrice = int.Parse(priceText.text);
-        if (plyerCoins > currentPrice)
+        switch (currentStateCarPrice)
         {
-            PlayerPrefs.SetInt("PlayerCoins", plyerCoins - currentPrice);
-            audioManager.Play(UIClipName.Buy);
-            SetNewValuesToPlayerPrefs();
+            case StateCarPrice.SelectCar:
+                PlayerPrefs.SetString("PlayerCurrentCarName", currentCar.name);
+                audioManager.Play(UIClipName.Select);
+                break;
+            case StateCarPrice.Upgrade:
+            case StateCarPrice.BuyCar:
+                int currentPrice = int.Parse(priceText.text);
+                if (plyerCoins > currentPrice)
+                {
+                    //Upgrade Car
+                    PlayerPrefs.SetInt("PlayerCoins", plyerCoins - currentPrice);
+                    SetNewValuesToPlayerPrefs();
+
+                    //BuyCar
+                    PlayerPrefs.SetFloat(currentCar.name + "playerBoughtCar", 1f);
+                    PlayerPrefs.SetString("PlayerCurrentCarName", currentCar.name);
+                    SwitchPriceText(StateCarPrice.SelectCar);
+
+                    //Set Player coins text
+                    MainMenuController.Instance.playerCoinsText.text =
+                        PlayerPrefs.GetInt("PlayerCoins").ToString();
+                    //Audio
+                    audioManager.Play(UIClipName.Buy);
+
+                    Debug.Log(PlayerPrefs.GetString("PlayerCurrentCarName"));
+                }
+                else
+                {
+                    audioManager.Play(UIClipName.Fail);
+                }
+                break;
         }
-        else
-        {
-            audioManager.Play(UIClipName.Fail);
-        }
-        //SetPriceChanged(2, 2);
-        PlayerPrefs.SetString("PlayerCurrentCarName", currentCar.name);
-        Debug.Log(PlayerPrefs.GetString("PlayerCurrentCarName"));
-        //PlayerPrefs.SetString("PlayerCurrentCarName", GameObject.FindGameObjectWithTag("Player").name);
     }
     private void SetNewValuesToPlayerPrefs()
     {
@@ -139,34 +213,6 @@ public class TuningMenu : MonoBehaviour
         }
         priceText.text = price.ToString();
     }
-    private void OnFuelEfficiencySliderValueChanged(float value)
-    {
-        SetSlidersToDefault(fuelEfficiencySlider);
-        SetTextValueInSlider(fuelEfficiencySlider);
-        SetPriceChanged(value, 100, "fuelEfficiency");
-    }
-
-    private void OnSpeedValueChanged(float value)
-    {
-        SetSlidersToDefault(speedSlider);
-        SetTextValueInSlider(speedSlider);
-        SetPriceChanged(value,10,"speed");
-    }
-
-    private void OnMotorsCountSliderValueChanged(float value)
-    {
-        SetSlidersToDefault(motorsCountSlider);
-        SetTextValueInSlider(motorsCountSlider);
-        SetPriceChanged(value, 300, "motorCount");
-    }
-
-    private void OnGravitySliderValueChanged(float value)
-    {
-        SetSlidersToDefault(gravitySlider);
-        SetTextValueInSlider(gravitySlider);
-        SetPriceChanged(value, 50,"gravity");
-    }
-
     private void Awake()
     {
         leftArrow.onClick.AddListener(OnLeftArrowClicked);
@@ -188,6 +234,32 @@ public class TuningMenu : MonoBehaviour
         leftArrow.onClick.RemoveListener(OnLeftArrowClicked);
         rightArrow.onClick.RemoveListener(OnRightArrowClicked);
         unlock.onClick.RemoveListener(OnUnlockClicked);
+    }
+    private void OnSliderValueChanged(Slider slider,float value, float priceGrowth,string parameter) 
+    {
+        SwitchPriceText(StateCarPrice.Upgrade);
+        SetSlidersToDefault(slider);
+        SetTextValueInSlider(slider);
+        SetPriceChanged(value, priceGrowth, parameter);
+    }
+    private void OnFuelEfficiencySliderValueChanged(float value)
+    {
+        OnSliderValueChanged(fuelEfficiencySlider, value, 400, "fuelEfficiency");
+    }
+
+    private void OnSpeedValueChanged(float value)
+    {
+        OnSliderValueChanged(speedSlider, value, 20, "speed");
+    }
+
+    private void OnMotorsCountSliderValueChanged(float value)
+    {
+        OnSliderValueChanged(motorsCountSlider, value, 500, "motorCount");
+    }
+
+    private void OnGravitySliderValueChanged(float value)
+    {
+        OnSliderValueChanged(gravitySlider, value, 50, "gravity");
     }
 
 

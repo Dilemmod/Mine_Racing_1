@@ -4924,8 +4924,8 @@ GameObject:
   - component: {fileID: 6536563790556965305}
   - component: {fileID: 6536563790556965304}
   - component: {fileID: 6536563790556965307}
-  - component: {fileID: 6536563790556965317}
   - component: {fileID: 6536563790556965316}
+  - component: {fileID: 6536563790556965317}
   - component: {fileID: 6536563790556965319}
   m_Layer: 8
   m_Name: Jeep
@@ -5052,30 +5052,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5138527, y: 0.11038363}
   m_EdgeRadius: 0
---- !u!235 &6536563790556965317
-WheelJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6536563790556965312}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 6536563791284838544}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0.75073856, y: -0.12428397}
-  m_ConnectedAnchor: {x: 0, y: 1.083}
-  m_Suspension:
-    m_DampingRatio: 0.7
-    m_Frequency: 4
-    m_Angle: 90
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 100
 --- !u!235 &6536563790556965316
 WheelJoint2D:
   m_ObjectHideFlags: 0
@@ -5100,6 +5076,30 @@ WheelJoint2D:
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 100
+--- !u!235 &6536563790556965317
+WheelJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536563790556965312}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 6536563791284838544}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0.75073856, y: -0.12428397}
+  m_ConnectedAnchor: {x: 0, y: 1.083}
+  m_Suspension:
+    m_DampingRatio: 0.7
+    m_Frequency: 4
+    m_Angle: 90
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 100
 --- !u!114 &6536563790556965319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5114,12 +5114,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PitchRiseRate: 0.02
   PitchSinkRate: 0.04
-  speed: 1200
   rotationSpeed: 10
-  isGrounded: 0
   maxFuel: 100
-  fuelEfficiency: 4
   countsOfCoins: 0
+  speed: 1200
+  fuelEfficiency: 4
+  frontWheelGravity: 5
+  backWheelGravity: 1
+  motorCount: 1
 --- !u!1 &6536563790767294152
 GameObject:
   m_ObjectHideFlags: 0
