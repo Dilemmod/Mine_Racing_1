@@ -55,7 +55,12 @@ public class SnapScrolling : MonoBehaviour
            // string levelName = EditorBuildSettings.scenes[sceneBildIndex].path.Remove(0, 14).Replace(".unity", "");
             arrayOfPanels[i].transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load("LevelImages/"+ levelName, typeof(Sprite)) as Sprite;
             arrayOfPanels[i].GetComponentInChildren<Text>().text = levelName.ToUpper();
-            arrayOfPanels[i].transform.GetChild(3).GetChild(0).GetChild(1).GetComponent<Text>().text = (PlayerPrefs.HasKey(sceneBildIndex + "PlayerRecord")? PlayerPrefs.GetInt(sceneBildIndex + "PlayerRecord").ToString():"0")+"m";
+            arrayOfPanels[i].transform.GetChild(3).GetChild(0).GetChild(1).GetComponent<Text>().text =
+                PlayerPrefs.HasKey(sceneBildIndex + "PlayerRecord")? 
+                PlayerPrefs.GetInt(sceneBildIndex + "PlayerRecord").ToString() + "m" : "0"+"m";
+            arrayOfPanels[i].transform.GetChild(3).GetChild(1).GetChild(1).GetComponent<Text>().text =
+                PlayerPrefs.HasKey(sceneBildIndex + "PlayerCoinRecord") ?
+                " +"+PlayerPrefs.GetInt(sceneBildIndex + "PlayerCoinRecord").ToString() : "0";
             arrayOfPanels[i].GetComponent<Button>().onClick.AddListener(() => OnChangeLevelClicked(sceneBildIndex));
 
             if (i == 0) continue;

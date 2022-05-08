@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 //[RequireComponent(typeof(Rigidbody2D))]
@@ -187,7 +188,7 @@ public class CarController : MonoBehaviour
         if (fuel <= 0f)
         {
             audioManager.Play(UIClipName.Accident);
-            OnDeath();
+            inGameMenuController.OnPlayerDeath();
         }
         textCoinsValue.text = countsOfCoins.ToString();
         textFuelValue.text = Math.Ceiling(fuel).ToString();
@@ -231,9 +232,15 @@ public class CarController : MonoBehaviour
     }
     public void OnDeath()
     {
+        int gotСoins = countsOfCoins - startCountOfCoins;
         inGameMenuController.DistanceValue.text = GetPlayerTravelDistance().ToString();
-        inGameMenuController.CoinsValue.text = (countsOfCoins - startCountOfCoins).ToString();
+        inGameMenuController.CoinsValue.text = gotСoins.ToString();
+        PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord", gotСoins);
         PlayerPrefs.SetInt("PlayerCoins", countsOfCoins);
-        inGameMenuController.OnPlayerDeath();
+        //inGameMenuController.OnPlayerDeath();
+        /*inGameMenuController.playerTravelDistance = GetPlayerTravelDistance();
+        inGameMenuController.countsOfCoins = countsOfCoins;
+        inGameMenuController.startCountOfCoins = startCountOfCoins;
+        inGameMenuController.OnPlayerDeath();*/
     }
 }

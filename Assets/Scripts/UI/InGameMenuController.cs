@@ -20,6 +20,7 @@ public class InGameMenuController : BaseGameMenuController
     [SerializeField] public Text DistanceValue;
     [SerializeField] public Text CoinsValue;
     [SerializeField] public Text RecordValue;
+    private CarController carController;
 
     #region Singleton
     public static InGameMenuController Instance;
@@ -36,7 +37,7 @@ public class InGameMenuController : BaseGameMenuController
     protected override void Start()
     {
         base.Start();
-
+        carController = CarController.Instance;
         openMenu.onClick.AddListener(OnOpenMenuClicked);
         play.onClick.AddListener(OnChangeMenuStatusClicked);
         restartGameMenu.onClick.AddListener(OnRestartClicked);
@@ -70,6 +71,7 @@ public class InGameMenuController : BaseGameMenuController
     }
     private void OnRestartClicked()
     {
+        OnPlayerDeath();
         timeGoForward = true;
         TimeScale();
         SceneTransition.Restart();
@@ -77,6 +79,7 @@ public class InGameMenuController : BaseGameMenuController
 
     public void OnGoToMainMenuClicked()
     {
+        OnPlayerDeath();
         timeGoForward = true;
         OnChangeMenuStatusClicked();
         SceneTransition.SwitchToScene(0);
@@ -88,6 +91,7 @@ public class InGameMenuController : BaseGameMenuController
     }
     public void OnPlayerDeath()
     {
+        carController.OnDeath();
         audioManager.Stop(UIClipName.BackgroundMusicGameMenu);
         audioManager.Stop(UIClipName.Engine);
         //-3.4 2.8 -14

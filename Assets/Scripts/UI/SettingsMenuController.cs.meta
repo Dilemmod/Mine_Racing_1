@@ -9,7 +9,7 @@ MonoImporter:
   - fullScreen: {instanceID: 0}
   - resolutionDropdown: {instanceID: 0}
   - qualityDropdown: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 300
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
