@@ -45,12 +45,14 @@ public class SnapScrolling : MonoBehaviour
         arrayOfPanels = new GameObject[countPanels];
         arrayOfPanelsPosition = new Vector2[countPanels];
         arrayOfPanelsScale = new Vector2[countPanels];
-
+        string[] scenes = {"Swamp","Desert","Snow Land"};
         for (int i = 0; i < countPanels; i++)
         {
             arrayOfPanels[i] = Instantiate(levelPanelPrefab, transform, false);
+            string levelName = scenes[i];
             int sceneBildIndex = i + 1;
-            string levelName = EditorBuildSettings.scenes[sceneBildIndex].path.Remove(0, 14).Replace(".unity", "");
+            //Dont run in Bild
+           // string levelName = EditorBuildSettings.scenes[sceneBildIndex].path.Remove(0, 14).Replace(".unity", "");
             arrayOfPanels[i].transform.GetChild(2).GetComponent<Image>().sprite = Resources.Load("LevelImages/"+ levelName, typeof(Sprite)) as Sprite;
             arrayOfPanels[i].GetComponentInChildren<Text>().text = levelName.ToUpper();
             arrayOfPanels[i].transform.GetChild(3).GetChild(0).GetChild(1).GetComponent<Text>().text = (PlayerPrefs.HasKey(sceneBildIndex + "PlayerRecord")? PlayerPrefs.GetInt(sceneBildIndex + "PlayerRecord").ToString():"0")+"m";

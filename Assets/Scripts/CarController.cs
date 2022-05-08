@@ -185,7 +185,10 @@ public class CarController : MonoBehaviour
         else
             fuel -= (fuelEfficiency / 5) * Time.fixedDeltaTime;
         if (fuel <= 0f)
+        {
+            audioManager.Play(UIClipName.Accident);
             OnDeath();
+        }
         textCoinsValue.text = countsOfCoins.ToString();
         textFuelValue.text = Math.Ceiling(fuel).ToString();
         sliderFuel.value = fuel;

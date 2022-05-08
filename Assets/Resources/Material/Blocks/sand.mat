@@ -105,6 +105,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 0
+    - _AO: 2.4
+    - _BaseLight: 0.35
     - _BillboardKwToggle: 0
     - _BillboardShadowFade: 0.5
     - _BlendOp: 0
@@ -135,6 +137,7 @@ Material:
     - _Metallic: 1
     - _Mode: 1
     - _NormalMapKwToggle: 0
+    - _Occlusion: 7.5
     - _OcclusionStrength: 1
     - _Parallax: 0.0173
     - _ShadowStrength: 1

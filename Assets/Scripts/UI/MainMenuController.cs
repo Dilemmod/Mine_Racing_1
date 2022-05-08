@@ -39,11 +39,10 @@ public class MainMenuController : BaseGameMenuController
     protected override void Start()
     {
         base.Start();
-        //PlayerPrefs.DeleteAll();Debug.LogWarning("DEleteAll");
-        //Main menu
-        mainMenuAnimator.SetTrigger("Open");
         //Auio
         audioManager.Play(UIClipName.BackgroundMusicMainMenu);
+        //Main menu
+        mainMenuAnimator.SetTrigger("Open");
 
         cameraControllerMainMenu = CameraControllerMainMenu.Instance;
         play.onClick.AddListener(OnPlayClicked);

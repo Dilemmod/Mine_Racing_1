@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class BaseGameMenuController : MonoBehaviour
 {
     protected UIAudioManager audioManager;
+    protected SettingsMenuController settingsManager;
     [SerializeField] protected GameObject menu;
 
     [Header("MainButttons")]
@@ -17,13 +19,25 @@ public class BaseGameMenuController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] protected GameObject settingsMenu;
     [SerializeField] protected Button closeSettings;
-    
+
+    [Obsolete]
     protected virtual void Start()
     {
         audioManager = UIAudioManager.Instance;
+        settingsManager = SettingsMenuController.Instance;
         quit.onClick.AddListener(OnQuitClicked);
         settings.onClick.AddListener(OnSettingsClicked);
         closeSettings.onClick.AddListener(OnSettingsClicked);
+
+        //PlayerPrefsValue
+        if (PlayerPrefs.HasKey("PlayerVolume"))
+            settingsManager.SetVolume(PlayerPrefs.GetFloat("PlayerVolume"));
+        else
+            settingsManager.SetVolume(-30);
+        if (PlayerPrefs.HasKey("PlayerQuality"))
+            settingsManager.SetQuality(PlayerPrefs.GetInt("PlayerQuality"));
+        else
+            settingsManager.SetQuality(settingsManager.GetQuality());
     }
     protected virtual void OnDestroy()
     {

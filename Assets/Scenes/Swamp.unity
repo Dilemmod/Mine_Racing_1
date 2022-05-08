@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 7687394308717007908}
   m_IndirectSpecularColor: {r: 0.434904, g: 0.3754137, b: 0.36979625, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -57,7 +57,7 @@ LightmapSettings:
     serializedVersion: 12
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_AtlasSize: 128
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: fd6b05938ac4d2f459a7bc413e161f95,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -337,6 +338,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7017542517880775601, guid: adb6e0aaebf4c1249911bf2b42ce68bf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb6e0aaebf4c1249911bf2b42ce68bf, type: 3}
 --- !u!4 &980137666110685656
@@ -429,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3571271564132244790}
   - component: {fileID: 3571271564132244785}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: "\u0421reatorBackground"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,7 +602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &8570910229618847504
 PrefabInstance:
   m_ObjectHideFlags: 0

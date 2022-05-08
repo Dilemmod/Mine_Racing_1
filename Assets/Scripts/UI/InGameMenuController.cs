@@ -20,7 +20,6 @@ public class InGameMenuController : BaseGameMenuController
     [SerializeField] public Text CoinsValue;
     [SerializeField] public Text RecordValue;
 
-
     #region Singleton
     public static InGameMenuController Instance;
 

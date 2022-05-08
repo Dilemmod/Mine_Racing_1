@@ -32,7 +32,7 @@ TagManager:
   - Car_Wheels
   - Player
   - Ground
-  - GraphicsObjectsEasy
+  - 
   - GraphicsObjectsMedium
   - GraphicsObjectsUltra
   - Post_Processing

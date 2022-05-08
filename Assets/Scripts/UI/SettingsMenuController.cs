@@ -13,112 +13,134 @@ public class SettingsMenuController : MonoBehaviour
     private float curretVolume;
 
     [Header("Quality")]
-    [SerializeField] private GameObject ultra=null;
-    [SerializeField] private GameObject medium = null;
-    [SerializeField] private GameObject low = null;
-
-    [Space]
     [SerializeField] Dropdown qualityDropdown;
     private string[] qualityLevels;
-    //[Space]
-    //[SerializeField] private Toggle fullScreen;
-    //[Space]
-    //[SerializeField] Dropdown resolutionDropdown;
-    //private Resolution[] availableResolutins;
+    #region Singleton
+    public static SettingsMenuController Instance;
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+    #endregion
     void Start()
     {
         volume.onValueChanged.AddListener(OnVolumeChanged);
-        //fullScreen.onValueChanged.AddListener(OnFullScreenChanged);
-        //resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
         qualityDropdown.onValueChanged.AddListener(OnQualityChanged);
-
-        masterMixer.GetFloat("Volume", out curretVolume);
-        volume.value = curretVolume;
-
-        QualityLevelController();
-        /*
-        availableResolutins = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
-        int currentIndex = 0;
-        for (int i = 0; i < availableResolutins.Length; i++) 
-        {
-            if (availableResolutins[i].width <= 800)
-                continue;
-
-            options.Add(availableResolutins[i].width + "x" + availableResolutins[i].height);
-            if (availableResolutins[i].width == Screen.currentResolution.width
-                && availableResolutins[i].height == Screen.currentResolution.height)
-                currentIndex = i;
-        }
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentIndex;
-        resolutionDropdown.RefreshShownValue();
-        */
-        qualityLevels = QualitySettings.names;
-        qualityDropdown.ClearOptions();
-        qualityDropdown.AddOptions(qualityLevels.ToList());
-        int qulityLvl = QualitySettings.GetQualityLevel();
-        qualityDropdown.value = qulityLvl;
-        qualityDropdown.RefreshShownValue();
-
+        volume.value = GetVolume();
+        FullerQualityDropdown();
     }
     private void OnDestroy()
     {
         volume.onValueChanged.RemoveListener(OnVolumeChanged);
-        //fullScreen.onValueChanged.RemoveListener(OnFullScreenChanged);
-        //resolutionDropdown.onValueChanged.RemoveListener(OnResolutionChanged);
         qualityDropdown.onValueChanged.RemoveListener(OnQualityChanged);
-
     }
-    /*
-    private void OnResolutionChanged(int resolutionIndex)
+    #region Volume
+    public void SetVolume(float volume)
     {
-        //Resolution resolution = availableResolutins[resolutionIndex];
-        //Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefs.SetFloat("PlayerVolume", volume);
+        masterMixer.SetFloat("Volume", volume);
     }
-    private void OnFullScreenChanged(bool value)
+    public float GetVolume()
     {
-        Screen.fullScreen = value;
-    }*/
+        masterMixer.GetFloat("Volume", out curretVolume);
+        return curretVolume;
+    }
     private void OnVolumeChanged(float volume)
     {
-        masterMixer.SetFloat("Volume", volume);
+        SetVolume(volume);
+    }
+    #endregion
+    #region Quality
+    public int GetQuality()
+    {
+        return QualitySettings.GetQualityLevel();
+    }
+
+    [System.Obsolete]
+    public void SetQuality(int index)
+    {
+        foreach (var gameObject in GameObject.FindObjectsOfTypeAll(typeof(GameObject))as GameObject[])
+        {
+            if (gameObject.layer == 13 || gameObject.layer == 14)
+            {
+                Material[] materials = Resources.LoadAll<Material>("Material");
+                if (index == 0)
+                {   
+                    //Material
+                    for (int i = 0; i < materials.Length; i++)
+                        materials[i].shader = Shader.Find("Mobile/Diffuse");
+                    gameObject.SetActive(false);
+                }
+                else if (index == 1)
+                {
+                    //Materials
+                    for (int i = 0; i < materials.Length; i++)
+                        materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
+                    if (gameObject.layer == 13)
+                        gameObject.SetActive(true);
+                    else if (gameObject.layer == 14)
+                        gameObject.SetActive(false);
+                }
+                else if (index == 2)
+                {
+                    //Materials
+                    for (int i = 0; i < materials.Length; i++)
+                        materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
+                    if (gameObject.layer == 13)
+                        gameObject.SetActive(true);
+                    else if (gameObject.layer == 14)
+                        gameObject.SetActive(true);
+                }
+            }
+        }
+        PlayerPrefs.SetInt("PlayerQuality", index);
+        QualitySettings.SetQualityLevel(index, true);
+    }
+    private void FullerQualityDropdown()
+    {
+        //Full Dropdown
+        qualityLevels = QualitySettings.names;
+        for (int i = 0; i < qualityLevels.Length; i++)
+            qualityLevels[i] = qualityLevels[i].ToUpper();
+        qualityDropdown.ClearOptions();
+        qualityDropdown.AddOptions(qualityLevels.ToList());
+
+        //Set value Dropdown
+        qualityDropdown.value = GetQuality();
+        qualityDropdown.RefreshShownValue();
+        //serQuality
     }
     private void OnQualityChanged(int qualityLvl)
     {
         QualitySettings.SetQualityLevel(qualityLvl,true);
-        QualityLevelController();
+        SetQuality(qualityLvl);
     }
+    private void SerachQuality()
+    {
+
+    }
+    /*
     public void QualityLevelController()
     {
-        if (low == null || medium == null || ultra == null)
-            return;
         switch (QualitySettings.GetQualityLevel())
         {
             case 0:
-                low.gameObject.SetActive(false);
-                medium.gameObject.SetActive(false);
-                ultra.gameObject.SetActive(false);
+                Debug.Log("Low");
+                SetQuality(0);
                 break;
             case 1:
-                low.gameObject.SetActive(true);
-                medium.gameObject.SetActive(false);
-                ultra.gameObject.SetActive(false);
+                Debug.Log("Medium");
+                SetQuality(1);
                 break;
             case 2:
-            case 3:
-                low.gameObject.SetActive(true);
-                medium.gameObject.SetActive(true);
-                ultra.gameObject.SetActive(false);
-                break;
-            case 4:
-            case 5:
-                low.gameObject.SetActive(true);
-                medium.gameObject.SetActive(true);
-                ultra.gameObject.SetActive(true);
+                Debug.Log("High");
+                SetQuality(2);
                 break;
         }
-    }
+    }*/
+    #endregion
 }
