@@ -36,14 +36,14 @@ public class InGameMenuController : BaseGameMenuController
     protected override void Start()
     {
         base.Start();
-        //Auio
-        audioManager.Play(UIClipName.BackgroundMusicGameMenu);
 
         openMenu.onClick.AddListener(OnOpenMenuClicked);
         play.onClick.AddListener(OnChangeMenuStatusClicked);
         restartGameMenu.onClick.AddListener(OnRestartClicked);
         restartGameOver.onClick.AddListener(OnRestartClicked);
         backToMenu.onClick.AddListener(OnGoToMainMenuClicked);
+        //Auio
+        audioManager.Play(UIClipName.BackgroundMusicGameMenu);
         //Run time
         TimeScale();
     }

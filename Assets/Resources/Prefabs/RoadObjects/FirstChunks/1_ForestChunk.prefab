@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 5239056887210895726}
   - component: {fileID: 5239056887210895721}
   m_Layer: 11
-  m_Name: 11_ForestChunk
+  m_Name: 1_ForestChunk
   m_TagString: ChunkEasy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,7 +212,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: 8d2148167877f7342a632ab44ac89651, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 81adda4c00f8df041b9afd82dfb84386, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 11.25, y: -0.7086334, z: 0}

@@ -84,7 +84,7 @@ public class СreatorChunks : MonoBehaviour
             chunksEndPositions[i] = GetEndPosition(chunks[i]);
         }
     }
-    void Update()
+    void FixedUpdate()
     {
         if(carController.GetPlayerPosition().x > spawnChunks[spawnChunks.Count - 1].transform.position.x)
         {
