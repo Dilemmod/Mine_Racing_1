@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 public class SettingsMenuController : MonoBehaviour
@@ -60,40 +61,59 @@ public class SettingsMenuController : MonoBehaviour
         return QualitySettings.GetQualityLevel();
     }
 
-    [System.Obsolete]
+    //[System.Obsolete]
     public void SetQuality(int index)
     {
-        foreach (var gameObject in GameObject.FindObjectsOfTypeAll(typeof(GameObject))as GameObject[])
+        void SerProfileSettings(bool active)
+        {
+            PostProcessProfile post =
+            (PostProcessProfile)Resources.Load("Material/PostProcessing/Profile");
+            post.GetSetting<Bloom>().active = active;
+            post.GetSetting<AmbientOcclusion>().active = active;
+            post.GetSetting<ColorGrading>().active = active;
+        }
+        //Materials
+        Material[] materials = Resources.LoadAll<Material>("Material");
+        switch (index)
+        {
+            case 0:
+                SerProfileSettings(false);
+                for (int i = 0; i < materials.Length; i++)
+                    materials[i].shader = Shader.Find("Mobile/Diffuse");
+                break;
+            case 1:
+                SerProfileSettings(false);
+                for (int i = 0; i < materials.Length; i++)
+                    materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
+                break;
+            case 2:
+                SerProfileSettings(true);
+                for (int i = 0; i < materials.Length; i++)
+                    materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
+                break;
+        }
+        //Disable objects
+        foreach (var gameObject in FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
         {
             if (gameObject.layer == 13 || gameObject.layer == 14)
             {
-                Material[] materials = Resources.LoadAll<Material>("Material");
-                if (index == 0)
-                {   
-                    //Material
-                    for (int i = 0; i < materials.Length; i++)
-                        materials[i].shader = Shader.Find("Mobile/Diffuse");
-                    gameObject.SetActive(false);
-                }
-                else if (index == 1)
+                switch (index)
                 {
-                    //Materials
-                    for (int i = 0; i < materials.Length; i++)
-                        materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
-                    if (gameObject.layer == 13)
-                        gameObject.SetActive(true);
-                    else if (gameObject.layer == 14)
+                    case 0:
                         gameObject.SetActive(false);
-                }
-                else if (index == 2)
-                {
-                    //Materials
-                    for (int i = 0; i < materials.Length; i++)
-                        materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
-                    if (gameObject.layer == 13)
-                        gameObject.SetActive(true);
-                    else if (gameObject.layer == 14)
-                        gameObject.SetActive(true);
+                        break;
+                    case 1:
+                        if (gameObject.layer == 13)
+                            gameObject.SetActive(true);
+                        else if (gameObject.layer == 14)
+                            gameObject.SetActive(false);
+                        break;
+                    case 2:
+                        if (gameObject.layer == 13)
+                            gameObject.SetActive(true);
+                        else if (gameObject.layer == 14)
+                            gameObject.SetActive(true);
+                        break;
                 }
             }
         }
@@ -119,28 +139,5 @@ public class SettingsMenuController : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityLvl,true);
         SetQuality(qualityLvl);
     }
-    private void SerachQuality()
-    {
-
-    }
-    /*
-    public void QualityLevelController()
-    {
-        switch (QualitySettings.GetQualityLevel())
-        {
-            case 0:
-                Debug.Log("Low");
-                SetQuality(0);
-                break;
-            case 1:
-                Debug.Log("Medium");
-                SetQuality(1);
-                break;
-            case 2:
-                Debug.Log("High");
-                SetQuality(2);
-                break;
-        }
-    }*/
     #endregion
 }

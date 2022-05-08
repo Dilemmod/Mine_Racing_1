@@ -12,6 +12,7 @@ public class InGameMenuController : BaseGameMenuController
     [SerializeField] private Button restartGameMenu;
     [SerializeField] private Button restartGameOver;
     [SerializeField] private Button backToMenu;
+    private bool timeGoForward;
 
     [Header("GameOver")]
     [SerializeField] private GameObject gameOverMenu;
@@ -57,7 +58,7 @@ public class InGameMenuController : BaseGameMenuController
     }
     private void TimeScale()
     {
-        if (menu.activeInHierarchy || gameOverMenu.activeInHierarchy) 
+        if ((menu.activeInHierarchy || gameOverMenu.activeInHierarchy)&& !timeGoForward) 
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
@@ -69,19 +70,21 @@ public class InGameMenuController : BaseGameMenuController
     }
     private void OnRestartClicked()
     {
+        timeGoForward = true;
         TimeScale();
         SceneTransition.Restart();
+    }
+
+    public void OnGoToMainMenuClicked()
+    {
+        timeGoForward = true;
+        OnChangeMenuStatusClicked();
+        SceneTransition.SwitchToScene(0);
     }
     protected override void OnChangeMenuStatusClicked()
     {
         base.OnChangeMenuStatusClicked();
         TimeScale();
-    }
-    
-    public void OnGoToMainMenuClicked()
-    {
-        OnChangeMenuStatusClicked();
-        SceneTransition.SwitchToScene(0);
     }
     public void OnPlayerDeath()
     {

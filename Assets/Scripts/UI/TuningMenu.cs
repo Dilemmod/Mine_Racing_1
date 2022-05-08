@@ -34,10 +34,6 @@ public class TuningMenu : MonoBehaviour
         priceText = unlock.transform.GetChild(0).GetComponentInChildren<Text>();
         priceNameText = unlock.transform.GetChild(2).GetComponent<Text>();
         //Current Player Car
-        PlayerPrefs.SetString("PlayerCurrentCarName",
-            PlayerPrefs.HasKey("PlayerCurrentCarName") ?
-            PlayerPrefs.GetString("PlayerCurrentCarName") : "Bentley");
-
         ActivateCarByName(PlayerPrefs.GetString("PlayerCurrentCarName"));
     }
     private void OnLeftArrowClicked()
@@ -181,8 +177,6 @@ public class TuningMenu : MonoBehaviour
                         PlayerPrefs.GetInt("PlayerCoins").ToString();
                     //Audio
                     audioManager.Play(UIClipName.Buy);
-
-                    Debug.Log(PlayerPrefs.GetString("PlayerCurrentCarName"));
                 }
                 else
                 {

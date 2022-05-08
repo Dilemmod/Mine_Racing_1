@@ -50,12 +50,12 @@ public class MainMenuController : BaseGameMenuController
         buttonToLevelMenu.onClick.AddListener(OnLevelMenuClicked);
         buttonToTuningMenu.onClick.AddListener(OnTuningMenuClicked);
         playerCoinsText = playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>();
+        //Default values to PlayerPrefs
         if (!PlayerPrefs.HasKey("PlayerCoins"))
             PlayerPrefs.SetInt("PlayerCoins", 0);
-        //Debug.LogWarning("PlayerCoins = 5000");
+        if (!PlayerPrefs.HasKey("PlayerCurrentCarName"))
+            PlayerPrefs.SetString("PlayerCurrentCarName", "Bentley");
         playerCoinsText.text = PlayerPrefs.GetInt("PlayerCoins").ToString();
-        //playerMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<Text>().text =
-        //PlayerPrefs.SetInt("PlayerCoins", 0);
     }
     protected override void OnDestroy()
     {

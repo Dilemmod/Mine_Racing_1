@@ -139,7 +139,7 @@ public class CarController : MonoBehaviour
             isGrounded = false;
     }
 
-    [Obsolete]
+    //[Obsolete]
     private void FixedUpdate()
     {
         if (gasButton.isDown || Input.GetAxisRaw("Horizontal") == 1)

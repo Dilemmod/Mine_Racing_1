@@ -20,7 +20,7 @@ public class BaseGameMenuController : MonoBehaviour
     [SerializeField] protected GameObject settingsMenu;
     [SerializeField] protected Button closeSettings;
 
-    [Obsolete]
+   // [Obsolete]
     protected virtual void Start()
     {
         audioManager = UIAudioManager.Instance;
