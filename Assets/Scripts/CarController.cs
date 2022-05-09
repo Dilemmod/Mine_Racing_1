@@ -235,7 +235,8 @@ public class CarController : MonoBehaviour
         int gotСoins = countsOfCoins - startCountOfCoins;
         inGameMenuController.DistanceValue.text = GetPlayerTravelDistance().ToString();
         inGameMenuController.CoinsValue.text = gotСoins.ToString();
-        PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord", gotСoins);
+        if(gotСoins > PlayerPrefs.GetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord"))
+            PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord", gotСoins);
         PlayerPrefs.SetInt("PlayerCoins", countsOfCoins);
         //inGameMenuController.OnPlayerDeath();
         /*inGameMenuController.playerTravelDistance = GetPlayerTravelDistance();

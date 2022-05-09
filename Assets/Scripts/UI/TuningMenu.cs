@@ -238,22 +238,22 @@ public class TuningMenu : MonoBehaviour
     }
     private void OnFuelEfficiencySliderValueChanged(float value)
     {
-        OnSliderValueChanged(fuelEfficiencySlider, value, 400, "fuelEfficiency");
+        OnSliderValueChanged(fuelEfficiencySlider, value, 600, "fuelEfficiency");
     }
 
     private void OnSpeedValueChanged(float value)
     {
-        OnSliderValueChanged(speedSlider, value, 20, "speed");
+        OnSliderValueChanged(speedSlider, value, 40, "speed");
     }
 
     private void OnMotorsCountSliderValueChanged(float value)
     {
-        OnSliderValueChanged(motorsCountSlider, value, 500, "motorCount");
+        OnSliderValueChanged(motorsCountSlider, value, 800, "motorCount");
     }
 
     private void OnGravitySliderValueChanged(float value)
     {
-        OnSliderValueChanged(gravitySlider, value, 50, "gravity");
+        OnSliderValueChanged(gravitySlider, value, 70, "gravity");
     }
 
 

@@ -11,6 +11,9 @@ public class MainMenuController : BaseGameMenuController
     [Header("Player menu")]
     [SerializeField] private GameObject playerMenuButtons;
     [SerializeField] private GameObject playerMenu;
+
+    [Header("Buttons")]
+    [SerializeField] protected Button gift;
     [SerializeField] protected Button buttonBack;
     [SerializeField] protected Button buttonToLevelMenu;
     [SerializeField] protected Button buttonToTuningMenu;
@@ -22,6 +25,7 @@ public class MainMenuController : BaseGameMenuController
     [SerializeField] private Animator mainMenuAnimator;
 
     private CameraControllerMainMenu cameraControllerMainMenu;
+    private GiftAd giftAd;
     public Text playerCoinsText { get; set; }
 
     #region Singleton
@@ -39,12 +43,13 @@ public class MainMenuController : BaseGameMenuController
     protected override void Start()
     {
         base.Start();
+        giftAd = GetComponent<GiftAd>();
         //Auio
         audioManager.Play(UIClipName.BackgroundMusicMainMenu);
         //Main menu
         mainMenuAnimator.SetTrigger("Open");
-
         cameraControllerMainMenu = CameraControllerMainMenu.Instance;
+        gift.onClick.AddListener(OnGiftClicked);
         play.onClick.AddListener(OnPlayClicked);
         buttonBack.onClick.AddListener(OnBackClicked);
         buttonToLevelMenu.onClick.AddListener(OnLevelMenuClicked);
@@ -60,10 +65,22 @@ public class MainMenuController : BaseGameMenuController
     protected override void OnDestroy()
     {
         base.OnDestroy();
+        gift.onClick.RemoveListener(OnGiftClicked);
         buttonBack.onClick.RemoveListener(OnBackClicked);
         play.onClick.RemoveListener(OnPlayClicked);
         buttonToLevelMenu.onClick.RemoveListener(OnLevelMenuClicked);
         buttonToTuningMenu.onClick.RemoveListener(OnTuningMenuClicked);
+    }
+    private void OnGiftClicked()
+    {
+        audioManager.Play(UIClipName.Quit);
+        giftAd.ShowAd();
+        StartCoroutine(adClosing());
+    }
+    IEnumerator adClosing()
+    {
+        yield return new WaitUntil(() => giftAd.adClousing == true);
+        audioManager.Play(UIClipName.Block_500);
     }
     private void OnPlayClicked()
     {

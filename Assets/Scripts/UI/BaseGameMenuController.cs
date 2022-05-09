@@ -14,7 +14,6 @@ public class BaseGameMenuController : MonoBehaviour
     [Header("MainButttons")]
     [SerializeField] protected Button play;
     [SerializeField] protected Button settings;
-    [SerializeField] protected Button quit;
 
     [Header("Settings")]
     [SerializeField] protected GameObject settingsMenu;
@@ -25,7 +24,6 @@ public class BaseGameMenuController : MonoBehaviour
     {
         audioManager = UIAudioManager.Instance;
         settingsManager = SettingsMenuController.Instance;
-        quit.onClick.AddListener(OnQuitClicked);
         settings.onClick.AddListener(OnSettingsClicked);
         closeSettings.onClick.AddListener(OnSettingsClicked);
 
@@ -33,7 +31,7 @@ public class BaseGameMenuController : MonoBehaviour
         if (PlayerPrefs.HasKey("PlayerVolume"))
             settingsManager.SetVolume(PlayerPrefs.GetFloat("PlayerVolume"));
         else
-            settingsManager.SetVolume(-30);
+            settingsManager.SetVolume(-20);
         if (PlayerPrefs.HasKey("PlayerQuality"))
             settingsManager.SetQuality(PlayerPrefs.GetInt("PlayerQuality"));
         else
@@ -41,7 +39,6 @@ public class BaseGameMenuController : MonoBehaviour
     }
     protected virtual void OnDestroy()
     {
-        quit.onClick.RemoveListener(OnQuitClicked);
         settings.onClick.RemoveListener(OnSettingsClicked);
         closeSettings.onClick.RemoveListener(OnSettingsClicked);
     }
@@ -49,10 +46,5 @@ public class BaseGameMenuController : MonoBehaviour
     {
         audioManager.Play(UIClipName.Settings);
         settingsMenu.SetActive(!settingsMenu.activeInHierarchy);
-    }
-    private void OnQuitClicked()
-    {
-        audioManager.Play(UIClipName.Quit);
-        SceneTransition.QuitToDesktop();
     }
 }

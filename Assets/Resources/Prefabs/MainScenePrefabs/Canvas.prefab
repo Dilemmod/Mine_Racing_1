@@ -153,6 +153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7514848019530493875}
   - component: {fileID: 8957459286523260942}
+  - component: {fileID: 4853025606518052605}
   m_Layer: 0
   m_Name: InGameMenuController
   m_TagString: Untagged
@@ -172,7 +173,7 @@ Transform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 6953972213060545006}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8957459286523260942
 MonoBehaviour:
@@ -189,7 +190,7 @@ MonoBehaviour:
   menu: {fileID: 6772360899627588905}
   play: {fileID: 1033105002252954629}
   settings: {fileID: 3476443105000284896}
-  quit: {fileID: 6741135607106521608}
+  gift: {fileID: 0}
   settingsMenu: {fileID: 720213595303837411}
   closeSettings: {fileID: 3661415808192505604}
   openMenu: {fileID: 499405349694045082}
@@ -201,6 +202,18 @@ MonoBehaviour:
   DistanceValue: {fileID: 6851534943962615096}
   CoinsValue: {fileID: 1051505101278589566}
   RecordValue: {fileID: 7883614652726178049}
+--- !u!114 &4853025606518052605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501156280120038416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bc5fc839d68e847b355ef985afce4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &573879296619427913
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +693,7 @@ RectTransform:
   m_LocalScale: {x: 2.9135048, y: 2.9135048, z: 2.9135048}
   m_Children: []
   m_Father: {fileID: 6953972213060545006}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2791,9 +2804,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 7514848019530493875}
   - {fileID: 7856179638920678531}
   - {fileID: 5274785424874225207}
-  - {fileID: 7514848019530493875}
   - {fileID: 421139001806213445}
   - {fileID: 418371916757060410}
   - {fileID: 2465705916229173498}
@@ -5112,7 +5125,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 6953972213060545006}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
