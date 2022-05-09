@@ -45,16 +45,6 @@ public class BaseGameMenuController : MonoBehaviour
         settings.onClick.RemoveListener(OnSettingsClicked);
         closeSettings.onClick.RemoveListener(OnSettingsClicked);
     }
-    protected virtual void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape))
-            OnChangeMenuStatusClicked();
-    }
-  
-    protected virtual void OnChangeMenuStatusClicked()
-    {
-        menu.SetActive(!menu.activeInHierarchy);
-    }
     protected virtual void OnSettingsClicked()
     {
         audioManager.Play(UIClipName.Settings);
@@ -63,7 +53,6 @@ public class BaseGameMenuController : MonoBehaviour
     private void OnQuitClicked()
     {
         audioManager.Play(UIClipName.Quit);
-        OnChangeMenuStatusClicked();
         SceneTransition.QuitToDesktop();
     }
 }

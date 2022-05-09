@@ -48,6 +48,11 @@ public class InGameMenuController : BaseGameMenuController
         //Run time
         TimeScale();
     }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+            OnChangeMenuStatusClicked();
+    }
 
     protected override void OnDestroy()
     {
@@ -84,9 +89,9 @@ public class InGameMenuController : BaseGameMenuController
         OnChangeMenuStatusClicked();
         SceneTransition.SwitchToScene(0);
     }
-    protected override void OnChangeMenuStatusClicked()
+    private void OnChangeMenuStatusClicked()
     {
-        base.OnChangeMenuStatusClicked();
+        menu.SetActive(!menu.activeInHierarchy);
         TimeScale();
     }
     public void OnPlayerDeath()
