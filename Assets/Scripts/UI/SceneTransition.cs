@@ -47,12 +47,6 @@ public class SceneTransition : MonoBehaviour
     public static void Restart()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-       //SwitchToScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    public static void QuitToDesktop()
-    {
-        Application.Quit();
-        Debug.Log("QUIT");
     }
     private void OnAnimationClosingOver()
     {

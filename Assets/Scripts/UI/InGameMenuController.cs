@@ -24,8 +24,7 @@ public class InGameMenuController : BaseGameMenuController
     private CarController carController;
     private InterAd interAd;
     private int playerTryCount;
-    private bool adClose = false;
-    private int maximumPlayerTry = 2;
+    private int maximumPlayerTry = 6;//4 try
 
     #region Singleton
     public static InGameMenuController Instance;
@@ -56,6 +55,9 @@ public class InGameMenuController : BaseGameMenuController
         audioManager.Play(UIClipName.BackgroundMusicGameMenu);
         //Run time
         TimeScale();
+        //Fix bug)
+        if (playerTryCount == 1)
+            playerTryCount = 2;
     }
     private void Update()
     {
@@ -77,7 +79,6 @@ public class InGameMenuController : BaseGameMenuController
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
-        Debug.Log(Time.timeScale);
     }
 
     private void OnOpenMenuClicked()
@@ -110,12 +111,14 @@ public class InGameMenuController : BaseGameMenuController
         if (playerTryCount >= maximumPlayerTry)
         {
             interAd.ShowAd();
-            Debug.LogWarning("Player open");
-            PlayerPrefs.SetInt("playerTryCount", 0);
+            playerTryCount = 0;
+            PlayerPrefs.SetInt("playerTryCount", playerTryCount);
             StartCoroutine(adClosing());
+            
         }
         else
         {
+           
             playerTryCount++;
             PlayerPrefs.SetInt("playerTryCount", playerTryCount);
         }
@@ -123,7 +126,6 @@ public class InGameMenuController : BaseGameMenuController
     }
     private void DeathMenu()
     {
-        Debug.LogWarning("Player close");
         carController.OnDeath();
         //Audio
         audioManager.Stop(UIClipName.BackgroundMusicGameMenu);
@@ -137,7 +139,7 @@ public class InGameMenuController : BaseGameMenuController
         if (record <= distanse)
         {
             gameOverHeader.text = "NEW RECORD!";
-            gameOverHeader.color = new Color(135, 148, 37);
+            gameOverHeader.color = new Color(225, 229, 0);
             RecordValue.text = distanse.ToString();
             audioManager.Play(UIClipName.Сongratulations);
             PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex + "PlayerRecord", distanse);
@@ -149,10 +151,7 @@ public class InGameMenuController : BaseGameMenuController
     }
     IEnumerator adClosing()
     {
-        //Debug.LogError(interAd.adClose);
         yield return new WaitUntil(() => interAd.adClose == true);
         DeathMenu();
-
-
     }
 }

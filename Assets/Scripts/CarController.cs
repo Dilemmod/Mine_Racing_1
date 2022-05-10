@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 
-//[RequireComponent(typeof(Rigidbody2D))]
 public class CarController : MonoBehaviour
 {
     [Header("Audio")]
@@ -54,6 +51,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private float frontWheelGravity = 5;
     [SerializeField] private float backWheelGravity = 1;
     [SerializeField] private int motorCount = 1;
+
+    //Flipping
+    private bool flipping = false;
+    private int countOfFlipping = 0;
+    private int countOfСontinuousFlipping = 0;
 
 
     #region Singleton
@@ -139,10 +141,28 @@ public class CarController : MonoBehaviour
         else
             isGrounded = false;
     }
-
-    //[Obsolete]
     private void FixedUpdate()
     {
+        //Flipper
+        if (isGrounded)
+            countOfСontinuousFlipping = 0;
+        if (gameObject.transform.rotation.w > 0 && !flipping)
+        {
+            if (countOfFlipping != 0)
+            {
+                countOfFlipping++;
+                Flipping();
+            }
+            flipping = true;
+        }
+        if (gameObject.transform.rotation.w < 0 && flipping) 
+        {
+            countOfFlipping++;
+            Flipping();
+            flipping = false;
+        }
+
+        //Press Gass, Moving
         if (gasButton.isDown || Input.GetAxisRaw("Horizontal") == 1)
         {
             direction = -1f;
@@ -177,9 +197,6 @@ public class CarController : MonoBehaviour
                     rb.AddTorque(-direction * rotationSpeed * Time.fixedDeltaTime * 100f);
                 }
             }
-            //rb.AddTorque(-acceleration.x * rotationSpeed );
-            //rb.AddTorque(rotation * rotationSpeed * Time.fixedDeltaTime);
-
         }
         if (movement != 0f)
             fuel -= fuelEfficiency * Time.fixedDeltaTime;
@@ -187,6 +204,8 @@ public class CarController : MonoBehaviour
             fuel -= (fuelEfficiency / 5) * Time.fixedDeltaTime;
         if (fuel <= 0f)
         {
+            inGameMenuController.gameOverHeader.text = "OUT OF FUEL";
+            inGameMenuController.gameOverHeader.color = new Color(173, 0, 0);
             audioManager.Play(UIClipName.Accident);
             inGameMenuController.OnPlayerDeath();
         }
@@ -212,6 +231,14 @@ public class CarController : MonoBehaviour
         }
         CarSound.pitch = pitch;
     }
+
+    private void Flipping()
+    {
+        if (!isGrounded)
+            countOfСontinuousFlipping++;
+        countsOfCoins += 25 * countOfСontinuousFlipping;
+        audioManager.Play(UIClipName.Coin_25);
+    }
     public Vector3 GetPlayerPosition()
     {
         try
@@ -222,7 +249,6 @@ public class CarController : MonoBehaviour
         {
             return new Vector3(0, 0, 0);
         }
-        
     }
     public int GetPlayerTravelDistance()
     {
@@ -238,10 +264,5 @@ public class CarController : MonoBehaviour
         if(gotСoins > PlayerPrefs.GetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord"))
             PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex + "PlayerCoinRecord", gotСoins);
         PlayerPrefs.SetInt("PlayerCoins", countsOfCoins);
-        //inGameMenuController.OnPlayerDeath();
-        /*inGameMenuController.playerTravelDistance = GetPlayerTravelDistance();
-        inGameMenuController.countsOfCoins = countsOfCoins;
-        inGameMenuController.startCountOfCoins = startCountOfCoins;
-        inGameMenuController.OnPlayerDeath();*/
     }
 }

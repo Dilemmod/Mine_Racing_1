@@ -84,7 +84,7 @@ public class SettingsMenuController : MonoBehaviour
             case 1:
                 SerProfileSettings(false);
                 for (int i = 0; i < materials.Length; i++)
-                    materials[i].shader = Shader.Find("Nature/Tree Creator Leaves");
+                    materials[i].shader = Shader.Find("Mobile/Diffuse");
                 break;
             case 2:
                 SerProfileSettings(true);

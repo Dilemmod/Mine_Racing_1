@@ -112,7 +112,5 @@ public class CameraControllerMainMenu : MonoBehaviour
         stop = (TimeToStop(moveTarget) ? true : false);
         if (!stop)
             MoveCameraTo(moveTo);
-        //Debug.Log("stop = " + stop);
-       // Debug.Log("rotationOn = " + rotateOn);
     }
 }

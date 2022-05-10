@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4896036481564288709}
   - component: {fileID: 4896036481564288714}
   - component: {fileID: 4896036481564288715}
-  m_Layer: 11
+  m_Layer: 4
   m_Name: EndGame
   m_TagString: Collidable
   m_Icon: {fileID: 0}

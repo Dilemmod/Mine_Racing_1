@@ -352,6 +352,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5354729949388635553, guid: adb6e0aaebf4c1249911bf2b42ce68bf,
+        type: 3}
+      propertyPath: m_FontData.m_AlignByGeometry
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5741750663753173248, guid: adb6e0aaebf4c1249911bf2b42ce68bf,
         type: 3}
       propertyPath: m_AnchorMax.x

@@ -7,7 +7,7 @@ public class AddFuel : AddPlayerValues
     private void OnTriggerEnter2D(Collider2D collision)
     {
         audioManager.Play(UIClipName.Fuel);
-        carController.fuel = carController.maxFuel;
+        carController.fuel = Random.Range(carController.fuel, carController.maxFuel);
         Destroy(gameObject);
     }
 }

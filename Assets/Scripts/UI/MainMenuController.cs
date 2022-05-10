@@ -11,6 +11,7 @@ public class MainMenuController : BaseGameMenuController
     [Header("Player menu")]
     [SerializeField] private GameObject playerMenuButtons;
     [SerializeField] private GameObject playerMenu;
+    [SerializeField] private GameObject messageBoxObject;
 
     [Header("Buttons")]
     [SerializeField] protected Button gift;
@@ -23,6 +24,7 @@ public class MainMenuController : BaseGameMenuController
     [SerializeField] private Animator tuningMenuAnimator;
     [SerializeField] private Animator playerMenuAnimator;
     [SerializeField] private Animator mainMenuAnimator;
+    [SerializeField] private Animator messageBox;
 
     private CameraControllerMainMenu cameraControllerMainMenu;
     private GiftAd giftAd;
@@ -60,6 +62,7 @@ public class MainMenuController : BaseGameMenuController
             PlayerPrefs.SetInt("PlayerCoins", 0);
         if (!PlayerPrefs.HasKey("PlayerCurrentCarName"))
             PlayerPrefs.SetString("PlayerCurrentCarName", "Bentley");
+        PlayerPrefs.SetInt("playerTryCount", 0);
         playerCoinsText.text = PlayerPrefs.GetInt("PlayerCoins").ToString();
     }
     protected override void OnDestroy()
@@ -79,8 +82,18 @@ public class MainMenuController : BaseGameMenuController
     }
     IEnumerator adClosing()
     {
-        yield return new WaitUntil(() => giftAd.adClousing == true);
-        audioManager.Play(UIClipName.Block_500);
+        if (giftAd.adOpen == true)
+        {
+            yield return new WaitUntil(() => giftAd.adClosed == true);
+            PlayerPrefs.SetInt("PlayerCoins", PlayerPrefs.GetInt("PlayerCoins") + 200);
+            playerCoinsText.text = PlayerPrefs.GetInt("PlayerCoins").ToString();
+            audioManager.Play(UIClipName.Block_500);
+        }
+        else
+        {
+            ShowMassageBox("YOU ALREADY USED GIFT");
+            audioManager.Play(UIClipName.Fail);
+        }
     }
     private void OnPlayClicked()
     {
@@ -128,5 +141,10 @@ public class MainMenuController : BaseGameMenuController
     private void OnChangePlayerMenuStatus()
     {
         playerMenuButtons.SetActive(!playerMenuButtons.activeInHierarchy);
+    }
+    public void ShowMassageBox(string massage)
+    {
+        messageBox.SetTrigger("Open");
+        messageBoxObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = massage;
     }
 }

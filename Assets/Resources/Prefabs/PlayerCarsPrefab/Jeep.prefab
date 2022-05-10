@@ -4923,7 +4923,6 @@ GameObject:
   - component: {fileID: 6536563790556965310}
   - component: {fileID: 6536563790556965305}
   - component: {fileID: 6536563790556965304}
-  - component: {fileID: 6536563790556965307}
   - component: {fileID: 6536563790556965316}
   - component: {fileID: 6536563790556965317}
   - component: {fileID: 6536563790556965319}
@@ -5025,32 +5024,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 2.0845404, y: 0.40077066}
-  m_EdgeRadius: 0
---- !u!61 &6536563790556965307
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6536563790556965312}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.051260352, y: -0.051260293}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5138527, y: 0.11038363}
   m_EdgeRadius: 0
 --- !u!235 &6536563790556965316
 WheelJoint2D:
@@ -5175,7 +5148,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &6536563790767294158
 CircleCollider2D:
@@ -5457,7 +5430,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &6536563791284838547
 CircleCollider2D:

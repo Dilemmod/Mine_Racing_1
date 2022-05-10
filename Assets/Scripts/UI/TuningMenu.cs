@@ -180,6 +180,7 @@ public class TuningMenu : MonoBehaviour
                 }
                 else
                 {
+                    MainMenuController.Instance.ShowMassageBox("NOT ENOUGH COIN");
                     audioManager.Play(UIClipName.Fail);
                 }
                 break;
