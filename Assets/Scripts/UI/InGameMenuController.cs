@@ -21,6 +21,10 @@ public class InGameMenuController : BaseGameMenuController
     [SerializeField] public Text CoinsValue;
     [SerializeField] public Text RecordValue;
 
+    //MessageBox
+    private Animator messageBox;
+    private GameObject messageBoxObject;
+
     private CarController carController;
     private InterAd interAd;
     private int playerTryCount;
@@ -58,6 +62,10 @@ public class InGameMenuController : BaseGameMenuController
         //Fix bug)
         if (playerTryCount == 1)
             playerTryCount = 2;
+
+        //MessageBox
+        messageBoxObject = GameObject.FindGameObjectWithTag("MessageBox");
+        messageBox = messageBoxObject.GetComponent<Animator>() ;
     }
     private void Update()
     {
@@ -110,11 +118,11 @@ public class InGameMenuController : BaseGameMenuController
         //Ad
         if (playerTryCount >= maximumPlayerTry)
         {
-            interAd.ShowAd();
+            //Temporarily
+            //interAd.ShowAd();
             playerTryCount = 0;
             PlayerPrefs.SetInt("playerTryCount", playerTryCount);
-            StartCoroutine(adClosing());
-            
+            //StartCoroutine(adClosing());
         }
         else
         {
@@ -130,9 +138,6 @@ public class InGameMenuController : BaseGameMenuController
         //Audio
         audioManager.Stop(UIClipName.BackgroundMusicGameMenu);
         audioManager.Stop(UIClipName.Engine);
-        //-3.4 2.8 -14
-        //-2.4 2 -8
-        //PlayerPrefs.SetInt(SceneManager.GetActiveScene().buildIndex+"PlayerRecord", );
         RecordValue.text = PlayerPrefs.GetInt(SceneManager.GetActiveScene().buildIndex + "PlayerRecord").ToString();
         int record = Convert.ToInt32(RecordValue.text);
         int distanse = Convert.ToInt32(DistanceValue.text);
@@ -153,5 +158,13 @@ public class InGameMenuController : BaseGameMenuController
     {
         yield return new WaitUntil(() => interAd.adClose == true);
         DeathMenu();
+    }
+    public void ShowMassageBox(string massage)
+    {
+        messageBox.SetTrigger("Open");
+        messageBoxObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = massage;
+        int x = UnityEngine.Random.Range(-150, 300);
+        int y = UnityEngine.Random.Range(-420, -300);
+        messageBoxObject.transform.localPosition = new Vector3(x, y, 0);
     }
 }

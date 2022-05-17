@@ -6,7 +6,7 @@ using System;
 
 public class GiftAd : MonoBehaviour
 {
-    private string RewardedUnitId = "ca-app-pub-6526435970617936/2337563112";
+    private string RewardedUnitId = "";//"ca-app-pub-6526435970617936/2337563112";
     private RewardedAd rewardedAd;
     public bool adClosed = false;
     public bool adOpen = false;

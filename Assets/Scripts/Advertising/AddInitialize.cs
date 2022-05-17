@@ -7,6 +7,6 @@ public class AddInitialize : MonoBehaviour
 {
     private void Awake()
     {
-        MobileAds.Initialize(initStatus => { });
+       // MobileAds.Initialize(initStatus => { });
     }
 }

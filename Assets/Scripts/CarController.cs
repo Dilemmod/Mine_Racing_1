@@ -13,6 +13,7 @@ public class CarController : MonoBehaviour
     private UIAudioManager audioManager;
     private AudioSource CarSound;
     private float pitch = 0.5f;
+
     [Header("Components")]
     private InGameMenuController inGameMenuController;
     private new ParticleSystem particleSystem;
@@ -143,10 +144,24 @@ public class CarController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
         //Flipper
+        void Flipping()
+        {
+            if (!isGrounded)
+                countOfСontinuousFlipping++;
+            if (countOfСontinuousFlipping == 0)
+                countOfСontinuousFlipping = 1;
+            int plus = 25 * countOfСontinuousFlipping;
+            countsOfCoins += plus;
+            audioManager.Play(UIClipName.Coin_25);
+
+            inGameMenuController.ShowMassageBox("+"+plus.ToString()) ;
+        }
+
         if (isGrounded)
             countOfСontinuousFlipping = 0;
-        if (gameObject.transform.rotation.w > 0 && !flipping)
+        if (gameObject.transform.rotation.w > 0.9 && !flipping)
         {
             if (countOfFlipping != 0)
             {
@@ -155,7 +170,7 @@ public class CarController : MonoBehaviour
             }
             flipping = true;
         }
-        if (gameObject.transform.rotation.w < 0 && flipping) 
+        if (gameObject.transform.rotation.w < -0.9 && flipping) 
         {
             countOfFlipping++;
             Flipping();
@@ -230,14 +245,6 @@ public class CarController : MonoBehaviour
                 pitch -= PitchSinkRate;
         }
         CarSound.pitch = pitch;
-    }
-
-    private void Flipping()
-    {
-        if (!isGrounded)
-            countOfСontinuousFlipping++;
-        countsOfCoins += 25 * countOfСontinuousFlipping;
-        audioManager.Play(UIClipName.Coin_25);
     }
     public Vector3 GetPlayerPosition()
     {

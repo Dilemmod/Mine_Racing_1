@@ -6,8 +6,8 @@ using System;
 
 public class InterAd : MonoBehaviour
 {
+    private string interstialUnitID = "";//"ca-app-pub-6526435970617936/7568626928";
     private InterstitialAd interstialAd;
-    private string interstialUnitID = "ca-app-pub-6526435970617936/7568626928";
     public bool adClose = false;
     private void Start()
     {

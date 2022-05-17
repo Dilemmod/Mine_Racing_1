@@ -76,12 +76,16 @@ public class MainMenuController : BaseGameMenuController
     }
     private void OnGiftClicked()
     {
-        audioManager.Play(UIClipName.Quit);
-        giftAd.ShowAd();
-        StartCoroutine(adClosing());
+        //audioManager.Play(UIClipName.Quit);
+        //giftAd.ShowAd();
+        //StartCoroutine(adClosing());
+        //Temporarily
+        ShowMassageBox("YOU ALREADY USED GIFT");
+        audioManager.Play(UIClipName.Fail);
     }
     IEnumerator adClosing()
     {
+        
         if (giftAd.adOpen == true)
         {
             yield return new WaitUntil(() => giftAd.adClosed == true);
